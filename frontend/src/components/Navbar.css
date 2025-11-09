@@ -1,0 +1,126 @@
+.navbar {
+    width: 100%;
+    position: fixed;
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    opacity: 0.9;
+    z-index: 100;
+      font-family: 'Poppins', sans-serif;
+  }
+  
+  .nav-contents {
+    width: 35%;
+    background-color: rgb(255, 255, 255,0.5);
+    display: flex;
+    margin-top: 1.5%;
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 4%;
+  }
+  .nav-contents a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: 400;
+    font-size: 15px;
+    margin-left: 2%;
+    letter-spacing: 1.5px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .Login {
+    display: flex;
+    align-items: center;
+    margin-top: 0.3%;
+    
+  }
+  .Login a{
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 19%;
+    letter-spacing: 1.5px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    padding: 10px 23px 10px 23px;
+    background-color: rgb(212, 0, 85,0.8);;
+  }
+
+  .Login a:hover{
+    background-color: rgb(255, 0, 102);;
+  }
+
+  .nav-contents a:hover{
+    transform: translateY(-2px);
+    color: rgb(212, 0, 85);
+}
+
+.nav-contents a::after {
+   content: ""; 
+   position: absolute;
+   left: 0%;
+   bottom: 4px; 
+   width: 0%;
+   height: 3.2px;
+   background-color: rgb(212, 0, 85);
+   transition: width 0.3s ease-in-out; 
+}
+
+.nav-contents a:hover::after {
+  width: 100%; 
+}
+  
+  /* Optional: Active state for current page (for better UX) */
+  .nav-contents a.active {
+    background-color: rgba(255, 255, 255, 0.7);
+    color: #f7f7f7;
+  }
+  
+
+  .logo h1{
+    margin-top: 15%;
+    margin-left: 1%;
+    font-size: 30px;
+    font-family: 'Kanit';
+    color: rgb(255, 0, 111);
+    letter-spacing: 4px;
+  }
+
+  .user-logged-in {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+}
+
+.logout-btn {
+    background-color: rgb(212, 0, 85);
+    border: 1px solid rgb(255, 29, 100);
+    padding: 10px 15px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12%;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+

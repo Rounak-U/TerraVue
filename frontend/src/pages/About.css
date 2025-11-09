@@ -1,0 +1,234 @@
+.AboutImage {
+    height: 400px;
+    width: 100%;
+    position: relative;
+}
+
+.AboutImage .Image {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.AboutImage .Image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* .AboutImage .Image::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+} */
+
+.Overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    z-index: 3; 
+}
+
+.Travel {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 3%;
+    padding: 50px 20px;
+}
+
+.AboutContent {
+    flex: 1;
+    max-width: 500px;
+    text-align: start;
+    padding: 20px;
+    margin-left: -14%
+}
+
+.AboutContent h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00bc71;
+    margin-bottom: 10px;
+}
+
+.AboutContent h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.AboutContent p {
+    font-size: 0.90rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.ImageGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 400px;
+    margin-left: -15%;
+    padding: 20px;
+}
+
+.ImageGrid img {
+    width: 280px;
+    height: 310px;
+    object-fit: cover;
+}
+
+.grid1{
+    border-radius: 80px 0 0 0 ;
+}
+
+.grid2{
+    border-radius: 0 80px 0 0;
+}
+
+.grid3{
+    border-radius: 0 0 0 80px;
+}
+
+.grid4{
+    border-radius:  0 0 80px 0;
+}
+
+.Exp {
+    display: flex; 
+    justify-content: space-evenly; 
+    width: 100%;
+    gap: 20px; 
+}
+
+.component1 {
+    display: inline-block;
+    text-align: center; 
+}
+
+.component1 h3 {
+    font-size: 1.6rem; 
+    color: #00bc71;
+}
+
+.component1 p {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #000000; 
+}
+
+.ImageIcons {
+    display: flex;
+    width: 85%;
+    background-color: rgb(255, 255, 255);
+    height: auto; 
+    margin-left: 8%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.LeftSection {
+    flex: 0.7;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+}
+
+.BImage {
+    background-color: #ffffff;
+    width: 100%;
+    margin-right: 5%;
+}
+
+.BImage img {
+    object-fit: cover;
+    height: 100%;
+    border-radius: 5px;
+    width: 100%;
+    box-shadow: 3px 8px 15px 0px rgb(0, 0, 0,0.6);
+    max-width: 1100px;
+    max-height: 500px;
+}
+
+
+.BText {
+    text-align: start;
+    margin-top: 20px;
+    padding: 0 15%;
+    width: 100%;
+    margin-right: 5%;
+}
+
+.BText h1 {
+    font-weight: 700;
+    color: #000000;
+    font-size: 44px;
+    text-align: start;
+    margin-top: 3%;
+    margin-bottom: 5%;
+}
+
+.BText p {
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 5%;
+    color: #000000;
+}
+
+.Icons {
+    flex: 0.3;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 60px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.IconItem {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center; 
+    gap: 20px;
+}
+
+.IconItem img {
+    width: 50px;
+    margin-bottom: 5%;
+    height: 50px;
+}
+
+.IconItem p {
+    margin: 0;
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    width: 80%; 
+    font-weight: 400;
+}
+
+.IconItem h2 {
+    font-weight: 600;
+}
+
+

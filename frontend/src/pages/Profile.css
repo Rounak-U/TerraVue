@@ -1,0 +1,204 @@
+:root {
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --background: #f3f4f6;
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --radius: 16px;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s ease;
+  --blur: blur(12px);
+}
+
+body {
+  background: var(--background);
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-main);
+}
+
+.dashboard-container {
+  max-width: 1100px;
+  margin: 3rem auto;
+  padding: 2.5rem;
+  background: var(--card-bg);
+  backdrop-filter: var(--blur);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  margin-top: 8%;
+}
+
+.dashboard-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: var(--text-main);
+}
+
+.dashboard-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+
+}
+
+
+.tab-button {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 0.85rem 2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 3px 8px rgba(59, 130, 246, 0.1);
+  letter-spacing: 0.3px;
+}
+
+.tab-button.active,
+.tab-button:hover {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 6px 14px rgba(59, 130, 246, 0.25);
+  transform: translateY(-1px);
+}
+
+
+
+.dashboard-alert {
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.dashboard-alert.success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.dashboard-alert.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.dashboard-card {
+  background: var(--card-bg);
+  backdrop-filter: var(--blur);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+  transition: var(--transition);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+}
+
+.dashboard-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--text-main);
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.dashboard-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.dashboard-form label {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.dashboard-form input,
+.dashboard-form textarea {
+  padding: 0.9rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: white;
+  color: var(--text-main);
+  transition: border-color 0.3s;
+}
+
+.dashboard-form input:focus,
+.dashboard-form textarea:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.dashboard-form button {
+  padding: 0.9rem 1.2rem;
+  background-color: var(--primary);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.dashboard-form button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Danger Section */
+.danger-zone {
+  background-color: #fff1f2;
+  border: 1px solid #fecaca;
+}
+
+.danger-zone h3 {
+  color: var(--danger);
+}
+
+.danger-button {
+  padding: 0.9rem 1.2rem;
+  background-color: var(--danger);
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 5%;
+  transition: var(--transition);
+}
+
+.danger-button:hover {
+  background-color: var(--danger-hover);
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1.5rem;
+  }
+
+  .dashboard-tabs {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tab-button {
+    width: 100%;
+    text-align: center;
+  }
+}

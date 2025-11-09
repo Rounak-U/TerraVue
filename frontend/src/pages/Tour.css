@@ -1,0 +1,178 @@
+.Headertext {
+    text-align: center;
+    margin-top: 3.0%;
+    margin-bottom: -3.5%;
+}
+
+.Headertext h1 {
+    color: black;
+    font-size: 2.5rem;
+}
+
+.Headertext h4 {
+    color: rgb(0, 163, 62);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1%;
+}
+
+.Header {
+    text-align: center;
+    margin: 20px 0;
+    position: relative; /* Allow the arrow to be positioned properly */
+    overflow: visible;  /* Ensure the arrow is not clipped */
+}
+
+.Arrow {
+    font-size: 34px;
+    position: absolute;
+    background-color: rgb(229, 229, 229);
+    padding-top: 10px;
+    color: black;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 100px;
+    left: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10; /* Ensure the arrow is above other elements */
+}
+
+.tour-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    padding: 100px;
+}
+
+.tour-card {
+    background: white;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.tour-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.tour-info {
+    padding: 15px;
+}
+
+.tour-info h3 {
+    margin: 10px 0;
+    font-weight: 600;
+    font-family: "Poppins";
+}
+
+.tour-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.tour-info .From {
+    font-size: 18px;
+}
+
+.tour-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.tour-info .Clock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6%;
+}
+
+.tour-info .Clock .GPS, 
+.tour-info .Clock .Time {
+    display: flex;
+    align-items: center;
+}
+
+.tour-info .Clock img {
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+}
+
+.FromDet {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.FromDet p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.FromDet .From {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.details-button {
+    background-color: green;
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    width: 120px;
+    text-align: center;
+    font-weight: 500;
+    margin-left: auto;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .tour-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tour-grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .Headertext h1 {
+        font-size: 2rem;
+    }
+
+    .Headertext h4 {
+        font-size: 1rem;
+    }
+
+    .tour-card img {
+        height: 250px;
+    }
+
+    .details-button {
+        width: auto;
+        padding: 6px 10px;
+    }
+
+    .Arrow {
+        font-size: 30px; /* Reduce the size on smaller screens */
+        left: 5px; /* Adjust arrow position */
+    }
+}
+
+.FromDet .From .Old {
+    font-size: 15px;
+    font-weight: 400;
+}

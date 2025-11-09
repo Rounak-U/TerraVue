@@ -1,0 +1,460 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+.video-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+}
+
+.video {
+    width: 100%; 
+    height: 780px; 
+    object-fit: cover; 
+}
+
+
+  .video:hover{
+    box-shadow: 0 4px 8px rgb(0, 0, 0,1);
+  }
+  
+  .Container-1{
+    flex: 1;
+    display: inline-flex;
+    flex-direction: row;
+    height: 800px;
+    width: 100%;
+  }
+
+  .BVideo{
+    border: 2px solid rgb(0, 110, 255);
+    margin-top: 5%;
+    width: 70%;
+  }
+
+  .FlexCards {
+    display: flex;
+    flex: 1;
+    height: 400px;
+    width: 100%; 
+    margin: 0 auto; 
+    gap: 60px; 
+    overflow: hidden; 
+    margin-top: -10%;
+    padding-left: 7%;
+}
+
+.FCards {
+    flex: 1; 
+    height: 130px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 10px 20px 0px rgba(93, 93, 93, 0.8);
+    max-width: 280px; 
+    border-radius: 25px;
+    margin-top: 7%;
+}
+
+.FCards h1{
+    color: black;
+    text-align: center;
+    margin-top: 10%;
+    font-weight: 600;
+    font-family: 'Poppins';
+}
+
+.FCards p{
+    text-align: center;
+    font-family: 'Poppins';
+    font-weight: 300;
+}
+
+.BestTalk{
+    display: flex;
+    flex: 1;
+    width: 100%;
+    margin-left: 15%;
+    margin-top: -2%;
+    height: 300px;
+}
+
+.Best{
+    flex: 0.4;
+}
+
+.Best p{
+    font-size: 22px;
+    color: rgb(4, 96, 135);
+    
+}
+
+.Best h1{
+    color: black;
+    text-align: start;
+    font-size: 55px;
+    font-weight: 500;
+    font-family: 'Kanit';
+}
+
+.BestInfo{
+    flex: 0.28;
+}
+
+.BestInfo p{
+    font-size: 18px;
+    margin-top: 12%;
+    color: rgb(4, 96, 135);
+}
+
+.Photos{
+    height: 1500px;
+    width: 100%;
+    margin-left: -2%;
+}
+
+.PSection1{
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    margin-top: -5%;
+}
+
+.Photo1{
+    margin-left: 10%;
+    flex: 0.54;
+    border-radius: 30px;
+    background-image: url(../assets/TajMahal.jpg);
+    background-position: top;
+    background-size: cover;
+    height: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.Photo1 h1{
+    text-align: start;
+    margin-top: 42%;
+    color: white;
+    margin-left: 5%;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.Photo1 h2{
+    color: white;
+    margin-left: 5%;
+    font-weight: 400;
+}
+
+.Photo2{
+    flex: 0.4;
+    background-image: url(../assets/Rishikesh.jpg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 30px;
+    height: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.Photo2 h1{
+    text-align: start;
+    margin-top: 57%;
+    color: white;
+    margin-left: 5%;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.Photo2 h2{
+    color: white;
+    margin-left: 5%;
+    font-weight: 400;
+}
+
+.PSection2{
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    margin-top: 2%;
+    margin-left: 10%;
+    margin-right: 5%;
+}
+
+.Photo3{
+    flex: 0.5;
+    border-radius: 30px;
+    background-image: url(../assets/Ladakh.jpg);
+    background-position: top;
+    background-size: cover;
+    height: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.Photo3 h1{
+    text-align: start;
+    margin-top: 48%;
+    color: white;
+    margin-left: 5%;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.Photo3 h2{
+    color: white;
+    margin-left: 5%;
+    font-weight: 400;
+}
+
+.Photo4{
+    flex: 0.5;
+    background-image: url(../assets/Munnar.jpg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 30px;
+    height: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.Photo4 h1{
+    text-align: start;
+    margin-top: 48%;
+    color: white;
+    margin-left: 5%;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.Photo4 h2{
+    color: white;
+    margin-left: 5%;
+    font-weight: 400;
+}
+
+.PSection3{
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    margin-top: 2%;
+}
+
+.Photo5{
+    margin-left: 10%;
+    flex: 0.4;
+    border-radius: 30px;
+    background-image: url(../assets/Manali.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.Photo5 h1{
+    text-align: start;
+    margin-top: 57%;
+    color: white;
+    margin-left: 5%;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.Photo5 h2{
+    color: white;
+    margin-left: 5%;
+    font-weight: 400;
+}
+
+.Photo6{
+    flex: 0.54;
+    background-image: url(../assets/Hawa.jpg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 30px;
+    height: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.Photo6 h1{
+    text-align: start;
+    margin-top: 42%;
+    color: white;
+    margin-left: 5%;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.Photo6 h2{
+    color: white;
+    margin-left: 5%;
+    font-weight: 400;
+}
+
+
+.works {
+    display: flex;
+    gap: 80px;
+    margin: -5% 10%;
+    align-items: flex-start;
+    height: 1000px;
+    margin-left: 15%;
+    overflow: hidden;
+}
+
+.wpic {
+    flex: 0.5;
+    background-image: url('../assets/Dark.jpg');
+    background-size: cover;
+    background-position: bottom;
+    border-radius: 25px;
+    margin-top: 0%;
+    height: 660px;
+    width: 600px;
+    position: relative;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.wpic .caption {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.text {
+    flex: 0.45;
+    color: #333;
+}
+
+.text p {
+    font-size: 20px;
+    font-weight: 400;
+    color: grey;
+}
+
+.text h1 {
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: black;
+    text-align: start;
+}
+
+.wcards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.wcard {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wcard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.wcard h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-left: 13%;
+    margin-top: -9%;
+    color: #000;
+}
+
+.wcard p {
+    font-size: 14px;
+    color: #555;
+}
+
+.Search{
+    height: 25px;
+    width: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: -3%;
+}
+.Book{
+    height: 25px;
+    width: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.Payment{
+    height: 25px;
+    width: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.Destination{
+    height: 25px;
+    width: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.testimonial-container {
+    padding: 50px 0;
+    background-color: #ffffff;
+    margin-top: -12%;
+    margin-bottom: 5%;
+    text-align: center;
+}
+
+.testimonial-header h2 {
+    font-size: 2rem;
+    margin-bottom: 5%;
+    font-weight: 600;
+    color: #000000;
+}
+
+.testimonials {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.testimonial-card {
+    background-color: rgb(218, 218, 218);
+    border-radius: 15px;
+    border-bottom: 5px solid rgb(255, 54, 124);
+    padding: 40px;
+    width: 280px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-text {
+    font-style: 'Poppins';
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.testimonial-card h4 {
+    font-size: 1.1rem;
+    color: #126cf3;
+    font-weight: 600;
+}

@@ -1,0 +1,212 @@
+.login-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.login-image-section {
+    flex: 0.7;
+    position: relative;
+    padding: 2%;
+    background-color:#232323;
+}
+
+.login-image {
+    width: 100%;
+    margin-left: 10%;
+    height: 100vh;
+    object-fit: cover;
+    border-radius: 15px;
+    object-position: center;
+}
+
+.login-image-text h1{
+    position: absolute;
+    color: rgb(255, 0, 115);
+    font-weight: bold;
+    font-family: 'Poppins';
+    bottom: 87%;
+    left: 18%;
+    font-size: 1.9rem;
+}
+.login-image-text h2 {
+    position: absolute;
+    bottom: 5%;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    letter-spacing: 2px;
+    font-weight: 500;
+    font-size: 2.2rem;
+    width: 50%;
+    left: 36%;
+}
+.login-form-section {
+    flex: 1;
+    background-color: #232323;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    background-color: #232323;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.login-form h2 {
+    color: white;
+    margin-bottom: 40px;
+    text-align: start;
+    font-weight: 500;
+    font-size: 2.6rem;
+}
+
+.login-form p {
+    color: #888;
+    margin-bottom: 10%;
+    margin-top: 10%;
+    text-align: start;
+}
+
+.login-form a {
+    text-decoration: none;
+    color: #f40072;
+    font-weight: bold;
+}
+
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.form-group input {
+    width: 50%; 
+    padding: 12px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #f40072; 
+}
+
+input[type="email"],
+input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin: 10px 0;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.terms {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px; 
+    margin-bottom: 20px;
+    color: #888;
+    font-size: 14px;
+}
+
+.create-account-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #f40072;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-account-btn:hover {
+    background-color: #ff62a9;
+}
+
+.login-options {
+    margin-top: 20px;
+    color: #888;
+    text-align: center;
+}
+
+.social-login {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.google-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border: 2px solid #000000;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.google-btn:hover {
+    background-color: #adadad;
+    color: white;
+}
+
+.google-btn img {
+    height: 20px;
+    width: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+
+.BackButton {
+    padding: 10px 20px; 
+    position: absolute;
+    top: 8%; 
+    right: 0%; 
+    color: rgb(0, 0, 0);
+    background-color: rgba(255, 255, 255, 0.2); 
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.BackButton:hover {
+    background-color: rgba(255, 255, 255, 0.4); 
+    transform: translateY(-1px)
+}
+
+.login-options p{
+    text-align: center;
+    margin-bottom: -1%;
+} 

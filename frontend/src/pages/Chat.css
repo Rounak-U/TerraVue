@@ -1,0 +1,46 @@
+.ChatMain{
+    background-color: black;
+}
+
+.Chat-Division{
+    display: flex;
+    height: 600px;
+    padding-top: 10%;
+    gap: 10px;
+}
+
+.ChatText{
+    display: flex;
+    flex: 0.5;
+    height: 500px;
+    margin-top: 4%;
+    margin-left: 2%;
+    flex-direction: column;
+}
+
+.ChatText h1{
+    color: white;
+    text-align: start;
+    margin: 50px;
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
+.ChatText p{
+    text-align: start;
+    margin: 50px;
+    margin-top: 0px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+.ChatImage{
+    background-image: url(../assets/csupport.jpg);
+    object-fit: cover;
+    border-radius: 20px;
+    height: 500px;
+    display: flex;
+    flex: 0.5;
+    margin-right: 5%;
+}
