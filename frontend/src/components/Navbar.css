@@ -41,6 +41,15 @@
     text-decoration: none;
     color: #ffffff;
     font-weight: 600;
+
+  .dashboard-btn, .dashboard-btn:focus {
+    background: #fff;
+    color: #0b72b9;
+    border: 0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
     font-size: 15px;
     margin-top: 19%;
     letter-spacing: 1.5px;

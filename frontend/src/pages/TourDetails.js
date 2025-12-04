@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 
 import { IoMdArrowRoundBack, IoMdCart } from "react-icons/io";
 import "./TourDetails.css";
@@ -24,7 +24,7 @@ const TourDetails = () => {
     useEffect(() => {
         const fetchTour = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/tours/${title}`);
+                const response = await api.get(`/api/tours/${title}`);
                 setTour(response.data);
                 setLoading(false);
             } catch (error) {
@@ -45,7 +45,7 @@ const TourDetails = () => {
     return (
         <div className="tour-details">
             <div className='HeaderText'>
-                <Link to="/tour" className="Arrow"><IoMdArrowRoundBack /></Link>
+                <Link to="/dashboard" className="Arrow"><IoMdArrowRoundBack /></Link>
                 <div className='HeaderTextContent'>
                     <h4>{tour.country}</h4>
                     <h1>{tour.title} - {tour.country}</h1>

@@ -6,6 +6,10 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes'); // fixed relative path
 const tourRoutes = require('./routes/tourRoutes');
 const profileRoutes = require('./routes/profileRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const supportRoutes = require('./routes/supportRoutes');
+const favoriteRoutes = require('./routes/favoriteRoutes');
 
 const app = express();
 
@@ -23,6 +27,10 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/tours', tourRoutes);
 app.use('/api/auth', profileRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/favorites', favoriteRoutes);
+app.use('/api/support', supportRoutes);
 
 
 const PORT = process.env.PORT || 5000;

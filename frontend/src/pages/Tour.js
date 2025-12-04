@@ -46,24 +46,28 @@ function Tour() {
     const [tours, setTours] = useState([]);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("accessToken") || localStorage.getItem("token");
         if (!token) {
             navigate("/login");
         }
     }, [navigate]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/tours")
-            .then((res) => res.json())
-            .then((data) => {
-                // Add image from local import based on title
+        const fetchTours = async () => {
+            try {
+                const res = await (await import('../api/axios')).default.get('/api/tours');
+                const data = res.data;
                 const updated = data.map((tour) => ({
                     ...tour,
                     image: imageMap[tour.title] || ""
                 }));
                 setTours(updated);
-            })
-            .catch((err) => console.error("Failed to fetch tours:", err));
+            } catch (err) {
+                console.error("Failed to fetch tours:", err);
+            }
+        };
+
+        fetchTours();
     }, []);
 
     const convertCurrency = (price, currency) => {

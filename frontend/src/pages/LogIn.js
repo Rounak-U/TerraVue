@@ -7,7 +7,7 @@ import Mountains from "../assets/mountains.jpg";
 import Fall from "../assets/fall.jpg";
 import Hiking from "../assets/hiking.jpg";
 import Google from "../assets/google.png";
-import axios from "axios";
+import api from "../api/axios";
 
 function LogIn() {
     const images = [Hiking, Fall, Mountains];
@@ -29,16 +29,20 @@ function LogIn() {
         setIsSubmitting(true);
 
         try {
-            const response = await axios.post("http://localhost:5000/api/auth/login", {
+            const response = await api.post("/api/auth/login", {
                 email,
                 password,
             });
 
             if (response.data.success) {
-                localStorage.setItem("token", response.data.token);
+                // Store access and refresh tokens separately
+                localStorage.setItem("accessToken", response.data.accessToken || response.data.token);
+                if (response.data.refreshToken) {
+                    localStorage.setItem("refreshToken", response.data.refreshToken);
+                }
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 toast.success("Login successful!");
-                setTimeout(() => navigate("/"), 1500); // delay so toast is visible
+                setTimeout(() => navigate("/dashboard"), 800); // redirect to dashboard
             } else {
                 toast.error(response.data.message || "Login failed.");
             }

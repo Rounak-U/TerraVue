@@ -7,7 +7,7 @@ import Mountains from "../assets/mountains.jpg";
 import Fall from "../assets/fall.jpg";
 import Hiking from "../assets/hiking.jpg";
 import Google from "../assets/google.png";
-import axios from "axios";
+import api from "../api/axios";
 
 function Register() {
     const images = [Hiking, Fall, Mountains];
@@ -41,7 +41,7 @@ function Register() {
         try {
             const fullName = `${firstName} ${lastName}`;
 
-            const response = await axios.post("http://localhost:5000/api/auth/register", {
+            const response = await api.post("/api/auth/register", {
                 name: fullName,
                 email,
                 password,
