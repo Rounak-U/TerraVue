@@ -324,12 +324,12 @@ const ExploreTours = () => {
                                                         e.stopPropagation();
                                                         toggleFavorite(tourIdentifier || tour._id || tour.id);
                                                     }}
-                                                    className="absolute top-5 right-5 bg-white/85 backdrop-blur rounded-full p-3 shadow-sm"
+                                                    className="absolute top-5 right-5 rounded-full bg-white text-slate-800 p-3 shadow-[0_18px_30px_-20px_rgba(15,23,42,0.9)] border border-slate-200"
                                                 >
                                                     <FaHeart
                                                         size={18}
-                                                        className={isFavorite ? 'text-rose-500' : 'text-slate-400'}
-                                                        fill={isFavorite ? 'currentColor' : 'none'}
+                                                        className={isFavorite ? 'text-rose-500' : 'text-slate-700'}
+                                                        fill="currentColor"
                                                     />
                                                 </motion.button>
                                                 <div className="absolute bottom-5 left-5">

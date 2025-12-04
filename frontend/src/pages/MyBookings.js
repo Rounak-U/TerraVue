@@ -49,10 +49,10 @@ function MyBookings() {
             <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-12 space-y-10">
                 <section className="space-y-4">
                     <p className="text-[0.6rem] uppercase tracking-[0.4em] text-slate-500">Travel ledger</p>
-                    <div className="flex flex-wrap items-end justify-between gap-4">
+                    <div className="flex flex-wrap items-start gap-4">
                         <div>
-                            <h1 className="text-4xl font-semibold">My bookings</h1>
-                            <p className="text-slate-500">Track confirmations, invoices, and live statuses in one dashboard.</p>
+                            <h1 className="text-4xl font-semibold text-black text-left">My bookings</h1>
+                            <p className="text-slate-500 text-left">Track confirmations, invoices, and live statuses in one dashboard.</p>
                         </div>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-3">
