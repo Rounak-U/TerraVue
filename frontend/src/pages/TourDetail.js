@@ -12,10 +12,12 @@ import axios from 'axios';
 import api from '../api/axios';
 import { toast } from 'react-toastify';
 import { toursData } from '../data/tours';
+import { useCart } from '../context/CartContext';
 
 const TourDetail = () => {
     const { tourTitle } = useParams();
     const navigate = useNavigate();
+    const { addItem } = useCart();
     const [tour, setTour] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
@@ -68,34 +70,33 @@ const TourDetail = () => {
     }, [tour]);
 
     const handleAddToCart = async () => {
+        const resolvedTourId = tour?._id || tour?.id;
+        if (!resolvedTourId) {
+            toast.error('Unable to locate this tour in the catalogue');
+            return;
+        }
+
         if (!startDate) {
-            alert('Please select a start date');
+            toast.error('Pick a travel date to continue');
             return;
         }
 
         setAdding(true);
         try {
-            const token = localStorage.getItem('token');
-            const cartItem = {
-                tourId: tour._id || tour.id,
+            await addItem({
+                tourId: resolvedTourId,
+                tourTitle: tour.title,
                 quantity,
                 adults,
                 children,
-                startDate
-            };
-
-            await axios.post(
-                '/api/cart/add',
-                cartItem,
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-
+                startDate,
+            });
             setAddSuccess(true);
             setTimeout(() => {
                 navigate('/cart');
-            }, 1500);
+            }, 1400);
         } catch (error) {
-            alert('Failed to add to cart: ' + (error.response?.data?.message || error.message));
+            // addItem already toasts the message, so we only reset local state here
         } finally {
             setAdding(false);
         }

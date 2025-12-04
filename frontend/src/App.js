@@ -24,6 +24,8 @@ import Cart from "./pages/Cart";
 import BookingSuccess from "./pages/BookingSuccess";
 import Favourites from "./pages/Favourites";
 import SupportCenter from "./pages/SupportCenter";
+import MyBookings from "./pages/MyBookings";
+import { CartProvider } from './context/CartContext';
 
 function Layout() {
   const location = useLocation();
@@ -40,7 +42,8 @@ function Layout() {
     !location.pathname.startsWith("/booking-success") &&
     !location.pathname.startsWith("/explore-tours") &&
     !location.pathname.startsWith("/favourites") &&
-    !location.pathname.startsWith("/support-center");
+    !location.pathname.startsWith("/support-center") &&
+    !location.pathname.startsWith("/bookings");
 
   return (
     <div className="app">
@@ -66,6 +69,7 @@ function Layout() {
         <Route path="/booking-success" element={<ProtectedRoute element={<BookingSuccess />} />} />
         <Route path="/favourites" element={<ProtectedRoute element={<Favourites />} />} />
         <Route path="/support-center" element={<ProtectedRoute element={<SupportCenter />} />} />
+        <Route path="/bookings" element={<ProtectedRoute element={<MyBookings />} />} />
       </Routes>
 
       {/* Global ToastContainer */}
@@ -86,7 +90,9 @@ function Layout() {
 function App() {
   return (
     <Router>
-      <Layout />
+      <CartProvider>
+        <Layout />
+      </CartProvider>
     </Router>
   );
 }

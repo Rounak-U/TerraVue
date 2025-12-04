@@ -6,6 +6,10 @@ const cartItemSchema = new mongoose.Schema({
         ref: 'Tour',
         required: true
     },
+    startDate: {
+        type: Date,
+        required: false
+    },
     quantity: {
         type: Number,
         default: 1,
@@ -25,6 +29,10 @@ const cartItemSchema = new mongoose.Schema({
     totalPrice: {
         type: Number,
         required: true
+    },
+    currency: {
+        type: String,
+        default: 'INR'
     },
     addedAt: {
         type: Date,

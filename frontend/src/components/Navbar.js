@@ -3,10 +3,12 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import "./Navbar.css";
 import UserIcon from "../assets/user.png"; // 🖼️ your round user icon
+import { useCart } from '../context/CartContext';
 
 function Navbar() {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
+    const { cartCount, loading: cartLoading } = useCart();
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -70,10 +72,15 @@ function Navbar() {
                         <div className="user-section flex items-center gap-4">
                             <button 
                                 onClick={() => navigate('/cart')}
-                                className="text-2xl hover:text-blue-400 transition"
+                                className="relative text-2xl hover:text-blue-400 transition"
                                 title="Shopping Cart"
                             >
                                 <FaShoppingCart />
+                                {!cartLoading && cartCount > 0 && (
+                                    <span className="absolute -top-2 -right-2 text-xs bg-pink-500 text-white rounded-full px-1.5 py-0.5">
+                                        {cartCount}
+                                    </span>
+                                )}
                             </button>
                             <img
                                 src={UserIcon}

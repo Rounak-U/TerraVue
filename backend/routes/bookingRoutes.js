@@ -1,27 +1,46 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Booking = require('../models/Booking');
 const Tour = require('../models/Tour');
 const Cart = require('../models/Cart');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// CREATE booking from cart
-router.post('/create', authMiddleware, async (req, res) => {
+const buildEndDate = (startDate, durationDays) => {
+    if (!startDate) return null;
+    const base = new Date(startDate);
+    base.setDate(base.getDate() + Math.max(1, durationDays || 1));
+    return base;
+};
+
+const handleCheckout = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     try {
-        const { startDate, endDate, specialRequests } = req.body;
+        const { paymentMethod = 'card', paymentProvider = 'TerraPay', specialRequests, simulateFailure = false } = req.body || {};
 
-        const cart = await Cart.findOne({ user: req.user.id }).populate('items.tour');
+        const cart = await Cart.findOne({ user: req.user.id })
+            .populate('items.tour')
+            .session(session);
+
         if (!cart || cart.items.length === 0) {
-            return res.status(400).json({ message: 'Cart is empty' });
-        }
-
-        if (!startDate || !endDate) {
-            return res.status(400).json({ message: 'Start date and end date are required' });
+            throw new Error('Cart is empty');
         }
 
         const bookings = [];
 
         for (const item of cart.items) {
+            const travelStart = item.startDate || req.body.startDate;
+            if (!travelStart) {
+                throw new Error('Each cart item must include a travel date');
+            }
+
+            const parsedStart = new Date(travelStart);
+            if (Number.isNaN(parsedStart.getTime())) {
+                throw new Error('Travel date is invalid');
+            }
+
             const booking = new Booking({
                 user: req.user.id,
                 tour: item.tour._id,
@@ -29,30 +48,64 @@ router.post('/create', authMiddleware, async (req, res) => {
                 adults: item.adults,
                 children: item.children,
                 totalPrice: item.totalPrice,
-                currency: 'INR',
-                startDate,
-                endDate,
-                specialRequests: specialRequests || ''
+                currency: item.currency || cart.currency || 'INR',
+                startDate: parsedStart,
+                endDate: buildEndDate(parsedStart, item.tour?.days || 1),
+                specialRequests: specialRequests || '',
+                status: 'pending',
+                paymentStatus: 'pending'
             });
 
-            await booking.save();
+            await booking.save({ session });
             bookings.push(booking);
         }
 
-        // Clear cart after booking
+        if (simulateFailure) {
+            throw new Error('Payment authorization failed — transaction rolled back');
+        }
+
+        const taxAmount = Math.round(cart.totalAmount * 0.18);
+        const paymentReference = `PAY-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        const payment = {
+            reference: paymentReference,
+            method: paymentMethod,
+            provider: paymentProvider,
+            subtotal: cart.totalAmount,
+            taxAmount,
+            amount: cart.totalAmount + taxAmount,
+            currency: cart.currency,
+            status: 'paid'
+        };
+
+        for (const booking of bookings) {
+            booking.status = 'confirmed';
+            booking.paymentStatus = 'paid';
+            await booking.save({ session });
+        }
+
         cart.items = [];
         cart.totalAmount = 0;
-        await cart.save();
+        await cart.save({ session });
 
-        res.status(201).json({ 
-            message: 'Bookings created successfully', 
+        await session.commitTransaction();
+        await Booking.populate(bookings, 'tour');
+
+        res.status(201).json({
+            message: 'Checkout completed successfully',
             bookings,
-            totalBookings: bookings.length 
+            payment
         });
     } catch (error) {
-        res.status(500).json({ message: 'Failed to create booking', error: error.message });
+        await session.abortTransaction();
+        res.status(400).json({ message: error.message || 'Failed to complete checkout' });
+    } finally {
+        session.endSession();
     }
-});
+};
+
+// CREATE booking from cart with transactional payment simulation
+router.post('/checkout', authMiddleware, handleCheckout);
+router.post('/create', authMiddleware, handleCheckout);
 
 // GET all user bookings
 router.get('/my-bookings', authMiddleware, async (req, res) => {

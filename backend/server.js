@@ -10,6 +10,7 @@ const cartRoutes = require('./routes/cartRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const supportRoutes = require('./routes/supportRoutes');
 const favoriteRoutes = require('./routes/favoriteRoutes');
+const locationRoutes = require('./routes/locationRoutes');
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/favorites', favoriteRoutes);
 app.use('/api/support', supportRoutes);
+app.use('/api/location', locationRoutes);
 
 
 const PORT = process.env.PORT || 5000;

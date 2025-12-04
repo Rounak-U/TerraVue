@@ -34,7 +34,7 @@ function Dashboard() {
       description: "Confirm flights & transfers",
       icon: FaCalendarAlt,
       accent: "from-zinc-900 via-slate-800 to-gray-600",
-      action: () => navigate("/profile")
+      action: () => navigate("/bookings")
     },
     {
       title: "Saved Capsules",
@@ -48,7 +48,7 @@ function Dashboard() {
       description: "Ping the concierge crew",
       icon: FaHeadset,
       accent: "from-cyan-500 via-blue-600 to-indigo-700",
-      action: () => navigate("/support")
+      action: () => navigate("/support-center")
     }
   ];
 
@@ -365,7 +365,7 @@ function Dashboard() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => navigate("/support")}
+              onClick={() => navigate("/support-center")}
               className="w-full rounded-full bg-white py-3 text-sm font-semibold uppercase tracking-[0.4em] text-slate-900"
             >
               contact support

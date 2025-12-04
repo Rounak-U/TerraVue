@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaCheckCircle, FaHome, FaEye } from 'react-icons/fa';
-import Navbar from '../components/Navbar';
+import { FaCheckCircle, FaHome, FaEye, FaCreditCard } from 'react-icons/fa';
 
 const BookingSuccess = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
+    const [payment, setPayment] = useState(null);
 
     useEffect(() => {
         if (location.state?.bookings) {
             setBookings(location.state.bookings);
+            setPayment(location.state.payment || null);
         } else {
             // Redirect if no bookings in state
             setTimeout(() => navigate('/dashboard'), 3000);
@@ -19,7 +20,6 @@ const BookingSuccess = () => {
 
     return (
         <div className="min-h-screen bg-black text-white">
-            <Navbar />
 
             <div className="container mx-auto px-4 py-16">
                 <div className="max-w-2xl mx-auto text-center">
@@ -72,6 +72,37 @@ const BookingSuccess = () => {
                                         </div>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Payment Snapshot */}
+                    {payment && (
+                        <div className="bg-white/5 border border-white/10 rounded-lg p-8 mb-8 text-left">
+                            <div className="flex items-center gap-3 mb-4">
+                                <FaCreditCard className="text-2xl text-purple-400" />
+                                <div>
+                                    <p className="text-sm uppercase tracking-[0.4em] text-gray-400">Payment</p>
+                                    <p className="text-2xl font-bold">{payment.provider}</p>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-6 text-sm">
+                                <div>
+                                    <p className="text-gray-400">Reference</p>
+                                    <p className="font-mono text-lg text-blue-300">{payment.reference}</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-400">Method</p>
+                                    <p className="font-semibold capitalize">{payment.method}</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-400">Amount</p>
+                                    <p className="text-lg font-semibold text-green-400">₹{(payment.amount || 0).toLocaleString('en-IN')}</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-400">Status</p>
+                                    <p className="font-semibold text-emerald-400">{payment.status}</p>
+                                </div>
                             </div>
                         </div>
                     )}
