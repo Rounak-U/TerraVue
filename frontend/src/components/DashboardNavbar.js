@@ -79,10 +79,7 @@ function DashboardNavbar() {
             console.warn('Logout failed', err);
         }
 
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.clear();
         navigate('/login');
     };
 

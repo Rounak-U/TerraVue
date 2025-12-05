@@ -158,6 +158,24 @@ input[type="password"]:focus {
     padding: 0;
 }
 
+.google-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.google-btn-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.google-loading {
+    font-size: 0.85rem;
+    color: #c7c7c7;
+}
+
 .BackButton {
     padding: 10px 20px;
     position: absolute;

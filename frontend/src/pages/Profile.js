@@ -91,9 +91,7 @@ const Profile = () => {
         if (!window.confirm('Delete account permanently? This cannot be undone.')) return;
         try {
             await api.delete('/api/auth/delete-account');
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('token');
+            localStorage.clear();
             toast.success('Account deleted');
             setTimeout(() => {
                 window.location.href = '/';
@@ -129,6 +127,8 @@ const Profile = () => {
         { label: 'Trips Planned', value: user.journeysPlanned ?? 12 },
         { label: 'Wishlist', value: user.wishlistCount ?? 5 }
     ];
+
+    const formattedLastLogin = user.lastLogin ? new Date(user.lastLogin).toLocaleString() : null;
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-white">
@@ -240,7 +240,7 @@ const Profile = () => {
                                 <div className="rounded-3xl border border-black/5 bg-gradient-to-br from-slate-900 to-black p-6 text-white shadow-xl">
                                     <p className="text-xs uppercase tracking-[0.4em] text-white/70">Last Login</p>
                                     <p className="mt-2 text-lg font-semibold">
-                                        {user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Not recorded yet'}
+                                        {formattedLastLogin || 'Not recorded yet'}
                                     </p>
                                     <p className="mt-4 text-xs uppercase tracking-[0.4em] text-white/70">Security Status</p>
                                     <p className="mt-2 flex items-center gap-2 text-sm font-semibold">
@@ -369,7 +369,7 @@ const Profile = () => {
                                     <div className="rounded-2xl border border-slate-200 p-4">
                                         <p className="text-xs uppercase tracking-[0.35em] text-slate-500">Last Login</p>
                                         <p className="text-lg font-semibold text-slate-900">
-                                            {user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Not recorded'}
+                                            {formattedLastLogin || 'Not recorded'}
                                         </p>
                                     </div>
                                     <div className="rounded-2xl border border-slate-200 p-4">

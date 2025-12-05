@@ -6,8 +6,8 @@ import "./LogIn.css";
 import Mountains from "../assets/mountains.jpg";
 import Fall from "../assets/fall.jpg";
 import Hiking from "../assets/hiking.jpg";
-import Google from "../assets/google.png";
 import api from "../api/axios";
+import { GoogleLogin } from "@react-oauth/google";
 
 function LogIn() {
     const images = [Hiking, Fall, Mountains];
@@ -15,7 +15,9 @@ function LogIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isGoogleLoading, setIsGoogleLoading] = useState(false);
     const navigate = useNavigate();
+    const isGoogleConfigured = Boolean(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -23,6 +25,20 @@ function LogIn() {
         }, 10000);
         return () => clearInterval(interval);
     }, [images.length]);
+
+    const persistSession = (payload) => {
+        if (!payload) return;
+        const { accessToken, refreshToken, user } = payload;
+        if (accessToken || payload.token) {
+            localStorage.setItem("accessToken", accessToken || payload.token);
+        }
+        if (refreshToken) {
+            localStorage.setItem("refreshToken", refreshToken);
+        }
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+        }
+    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -35,12 +51,7 @@ function LogIn() {
             });
 
             if (response.data.success) {
-                // Store access and refresh tokens separately
-                localStorage.setItem("accessToken", response.data.accessToken || response.data.token);
-                if (response.data.refreshToken) {
-                    localStorage.setItem("refreshToken", response.data.refreshToken);
-                }
-                localStorage.setItem("user", JSON.stringify(response.data.user));
+                persistSession(response.data);
                 toast.success("Login successful!");
                 setTimeout(() => navigate("/dashboard"), 800); // redirect to dashboard
             } else {
@@ -54,8 +65,35 @@ function LogIn() {
         setIsSubmitting(false);
     };
 
-    const handleGoogleLogin = async () => {
-        toast.info("Google login feature is not available.");
+    const handleGoogleSuccess = async (credentialResponse) => {
+        if (!credentialResponse?.credential) {
+            toast.error("Unable to verify Google credential");
+            return;
+        }
+
+        setIsGoogleLoading(true);
+        try {
+            const response = await api.post("/api/auth/google", {
+                credential: credentialResponse.credential,
+            });
+
+            if (response.data.success) {
+                persistSession(response.data);
+                toast.success("Logged in with Google");
+                setTimeout(() => navigate("/dashboard"), 600);
+            } else {
+                toast.error(response.data.message || "Google login failed");
+            }
+        } catch (error) {
+            console.error("Google login error:", error);
+            toast.error(error.response?.data?.message || "Unable to sign in with Google");
+        } finally {
+            setIsGoogleLoading(false);
+        }
+    };
+
+    const handleGoogleError = () => {
+        toast.error("Google login was cancelled or failed. Please try again.");
     };
 
     return (
@@ -113,9 +151,23 @@ function LogIn() {
                     <div className="login-options">
                         <p className="registerp">Or Log In With</p>
                         <div className="social-login">
-                            <button className="google-btn" onClick={handleGoogleLogin}>
-                                <img src={Google} alt="Google" /> Google
-                            </button>
+                            {isGoogleConfigured ? (
+                                <div className="google-btn-wrapper">
+                                    <GoogleLogin
+                                        onSuccess={handleGoogleSuccess}
+                                        onError={handleGoogleError}
+                                        shape="pill"
+                                        theme="outline"
+                                        text="signin_with"
+                                        width="260"
+                                    />
+                                    {isGoogleLoading && <p className="google-loading">Connecting to Google...</p>}
+                                </div>
+                            ) : (
+                                <button className="google-btn" disabled>
+                                    Google Sign-In unavailable
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>

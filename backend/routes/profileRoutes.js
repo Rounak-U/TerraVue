@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Cart = require('../models/Cart');
+const Booking = require('../models/Booking');
 const verifyToken = require('../middleware/verifyToken');
 const bcrypt = require('bcryptjs');
 
@@ -47,6 +49,29 @@ router.put('/change-password', verifyToken, async (req, res) => {
         res.json({ message: 'Password updated successfully' });
     } catch (err) {
         res.status(500).json({ message: 'Failed to update password' });
+    }
+});
+
+// ✅ DELETE: Remove account and related data
+router.delete('/delete-account', verifyToken, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const userExists = await User.exists({ _id: userId });
+
+        if (!userExists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        await Promise.all([
+            User.findByIdAndDelete(userId),
+            Cart.deleteMany({ user: userId }),
+            Booking.deleteMany({ user: userId })
+        ]);
+
+        res.json({ message: 'Account deleted successfully' });
+    } catch (err) {
+        console.error('Delete account failed', err);
+        res.status(500).json({ message: 'Failed to delete account' });
     }
 });
 
