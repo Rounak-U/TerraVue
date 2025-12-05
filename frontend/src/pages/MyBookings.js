@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaCalendarAlt, FaUsers, FaRupeeSign, FaCheckCircle, FaClock } from 'react-icons/fa';
+import { FaCalendarAlt, FaUsers, FaRupeeSign, FaCheckCircle, FaClock, FaFileInvoiceDollar } from 'react-icons/fa';
 import DashboardNavbar from '../components/DashboardNavbar';
 import api from '../api/axios';
+import { useNotify } from '../context/NotifyContext';
 
 const statusAccent = {
     confirmed: 'text-emerald-600 bg-emerald-50 border-emerald-200',
@@ -15,6 +16,8 @@ function MyBookings() {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [downloadingInvoices, setDownloadingInvoices] = useState({});
+    const notify = useNotify();
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -41,6 +44,32 @@ function MyBookings() {
             spent,
         };
     }, [bookings]);
+
+    const handleInvoiceDownload = async (booking) => {
+        const bookingId = booking._id;
+        setDownloadingInvoices((prev) => ({ ...prev, [bookingId]: true }));
+        try {
+            const response = await api.get(`/api/bookings/${bookingId}/invoice`, { responseType: 'arraybuffer' });
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `TerraVue_Invoice_${booking.bookingReference || bookingId}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            notify.success('Invoice downloaded');
+        } catch (err) {
+            notify.error('Unable to generate invoice right now');
+        } finally {
+            setDownloadingInvoices((prev) => {
+                const next = { ...prev };
+                delete next[bookingId];
+                return next;
+            });
+        }
+    };
 
     return (
         <div className="min-h-screen bg-[#f7f6f2] text-slate-900">
@@ -100,7 +129,10 @@ function MyBookings() {
                         </div>
                     ) : (
                         <AnimatePresence mode="popLayout">
-                            {bookings.map((booking) => (
+                            {bookings.map((booking) => {
+                                const isPaid = booking.paymentStatus === 'paid';
+                                const isDownloading = Boolean(downloadingInvoices[booking._id]);
+                                return (
                                 <motion.div
                                     key={booking._id}
                                     layout
@@ -160,9 +192,23 @@ function MyBookings() {
                                                 Notes added
                                             </span>
                                         )}
+                                        <button
+                                            type="button"
+                                            onClick={() => handleInvoiceDownload(booking)}
+                                            disabled={!isPaid || isDownloading}
+                                            className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 transition ${
+                                                !isPaid || isDownloading
+                                                    ? 'border-slate-200 text-slate-300 cursor-not-allowed'
+                                                    : 'border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white'
+                                            }`}
+                                        >
+                                            <FaFileInvoiceDollar size={12} />
+                                            {isDownloading ? 'Preparing...' : 'Download invoice'}
+                                        </button>
                                     </div>
                                 </motion.div>
-                            ))}
+                            );
+                            })}
                         </AnimatePresence>
                     )}
                 </section>

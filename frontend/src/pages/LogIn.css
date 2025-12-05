@@ -59,12 +59,44 @@
     border-radius: 10px;
 }
 
-.login-form h2 {
+.login-form-admin {
+    font-size: 0.9rem;
+}
+
+.login-form-admin .login-heading-admin {
+    font-size: 1.6rem;
+}
+
+.login-form-admin p,
+.login-form-admin label,
+.login-form-admin .login-helper-card,
+.login-form-admin .login-admin-note {
+    font-size: 0.8rem;
+}
+
+.login-form-admin input[type="email"],
+.login-form-admin input[type="password"] {
+    font-size: 0.85rem;
+    padding: 10px;
+}
+
+.login-form-admin .create-account-btn,
+.login-form-admin .login-mode-button,
+.login-form-admin .admin-credential-chip {
+    font-size: 0.7rem;
+}
+
+.login-heading {
     color: white;
     margin-bottom: 40px;
     text-align: start;
     font-weight: 500;
-    font-size: 2.6rem;
+    font-size: 2.4rem;
+}
+
+.login-heading-admin {
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
 }
 
 .login-form p {
@@ -138,7 +170,7 @@ input[type="password"]:focus {
     background-color: #ffffff;
     color: rgb(0, 0, 0);
     border: 2px solid #000000;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
     text-align: center;
     font-size: 18px;
@@ -171,6 +203,18 @@ input[type="password"]:focus {
     gap: 0.5rem;
 }
 
+.google-btn-embed {
+    width: calc(100% - 5px);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.google-btn-embed > div,
+.google-btn-embed iframe {
+    width: 100% !important;
+    border-radius: 4px !important;
+}
+
 .google-loading {
     font-size: 0.85rem;
     color: #c7c7c7;
@@ -199,6 +243,67 @@ input[type="password"]:focus {
 .login-options p {
     text-align: center;
     margin-bottom: -1%;
+}
+
+.login-mode-switch {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.login-mode-button {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: #cfcfcf;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+}
+
+.login-mode-button.active {
+    background: linear-gradient(135deg, #f40072, #ff9ad6);
+    color: #1b1b1b;
+    border-color: transparent;
+}
+
+.login-helper-card {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    padding: 1rem;
+    color: #c0c0c0;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.login-helper-card p {
+    margin: 0 0 0.75rem;
+    color: #d8d8d8;
+    font-size: 0.8rem;
+}
+
+.admin-credential-chip {
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+}
+
+.login-admin-note {
+    color: #b7b7b7;
+    font-size: 0.85rem;
+    margin-top: 1.5rem;
 }
 
 /* Custom container position */

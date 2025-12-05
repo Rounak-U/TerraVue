@@ -13,6 +13,12 @@ const Cart = () => {
 
     const items = cart?.items || [];
     const isEmpty = items.length === 0;
+    const totalGuests = items.reduce((sum, item) => sum + (item.adults || 0) + (item.children || 0), 0);
+    const totalPackages = items.reduce((sum, item) => sum + (item.quantity || 0), 0);
+    const upcomingDate = items
+        .map((item) => item.startDate)
+        .filter(Boolean)
+        .sort((a, b) => new Date(a) - new Date(b))[0];
 
     const handleStepper = (item, field, direction) => {
         const current = item[field] || 0;
@@ -34,8 +40,8 @@ const Cart = () => {
     const renderQuantityControls = (item) => (
         <div className="flex flex-col gap-2 text-xs text-slate-500">
             {[{ label: 'Tours', field: 'quantity' }, { label: 'Adults', field: 'adults' }, { label: 'Children', field: 'children' }].map(({ label, field }) => (
-                <div key={field} className="flex items-center justify-between rounded-full border border-slate-200 bg-white px-3 py-1.5">
-                    <span className="tracking-[0.3em] uppercase text-[0.55rem]">{label}</span>
+                <div key={field} className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-2">
+                    <span className="tracking-[0.3em] uppercase text-[0.55rem] text-slate-500">{label}</span>
                     <div className="flex items-center gap-2">
                         <button
                             type="button"
@@ -75,37 +81,61 @@ const Cart = () => {
 
     return (
         <div className="min-h-screen bg-[#f6f5ff] text-slate-900">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-10">
-                <div className="flex items-start justify-between gap-4">
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-slate-500"
-                    >
-                        <FaArrowLeft size={12} /> Back
-                    </button>
-                    <div className="text-right">
-                        <p className="text-[0.6rem] uppercase tracking-[0.5em] text-slate-400">TerraVue</p>
-                        <h1 className="text-3xl font-semibold">Your curated cart</h1>
+            <div className="max-w-6xl mx-auto px-4 sm:px-8 py-12 space-y-10">
+                <div className="flex flex-wrap items-start justify-between gap-6 rounded-[2.3rem] border border-slate-200 bg-gradient-to-r from-white to-slate-50 px-6 py-8 shadow-[0_45px_100px_-60px_rgba(15,23,42,0.4)]">
+                    <div className="space-y-3 max-w-2xl text-left">
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="inline-flex items-center gap-2 text-[0.55rem] font-semibold uppercase tracking-[0.45em] text-slate-500"
+                        >
+                            <FaArrowLeft size={12} /> Back to journeys
+                        </button>
+                        <div>
+                            <p className="text-[0.55rem] uppercase tracking-[0.65em] text-slate-400">TerraVue Concierge</p>
+                            <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-slate-900">Your in-progress itinerary</h1>
+                        </div>
+                        <p className="text-sm text-slate-600 max-w-2xl">
+                            Hold handcrafted escapes, tweak guest details, and confirm when ready. We keep every selection synced in real time.
+                        </p>
+                    </div>
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-right">
+                        <p className="text-[0.55rem] uppercase tracking-[0.5em] text-slate-400">Active reservations</p>
+                        <p className="text-3xl font-semibold text-slate-900">{items.length.toString().padStart(2, '0')}</p>
                     </div>
                 </div>
 
+                {!isEmpty && (
+                    <div className="grid gap-4 sm:grid-cols-3">
+                        {[
+                            { label: 'Itineraries held', value: totalPackages || '—' },
+                            { label: 'Guests traveling', value: totalGuests || '—' },
+                            { label: 'Next departure', value: upcomingDate ? new Date(upcomingDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Select date' }
+                        ].map((stat) => (
+                            <div key={stat.label} className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-[0_35px_90px_-60px_rgba(15,23,42,0.35)]">
+                                <p className="text-[0.55rem] uppercase tracking-[0.5em] text-slate-400">{stat.label}</p>
+                                <p className="mt-2 text-2xl font-semibold text-slate-900">{stat.value}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
                 {isEmpty ? (
-                    <div className="rounded-[2rem] border border-slate-200 bg-white px-8 py-16 text-center space-y-6 shadow-[0_30px_80px_-60px_rgba(15,23,42,0.5)]">
+                    <div className="rounded-[2.5rem] border border-slate-200 bg-white px-10 py-16 text-center space-y-6 shadow-[0_45px_100px_-60px_rgba(15,23,42,0.35)]">
                         <FaShoppingBag className="mx-auto text-4xl text-slate-400" />
-                        <h2 className="text-2xl font-semibold">Cart feels a little empty</h2>
-                        <p className="text-slate-500">Discover handcrafted journeys and drop them here in real time.</p>
+                        <h2 className="text-3xl font-semibold text-slate-900">Nothing reserved yet</h2>
+                        <p className="text-slate-500">Explore bespoke routes, add them here, and we'll maintain the itinerary until checkout.</p>
                         <button
                             onClick={() => navigate('/explore-tours')}
-                            className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold uppercase tracking-[0.35em] text-white"
+                            className="inline-flex items-center justify-center rounded-full bg-slate-900 text-white px-7 py-3 text-sm font-semibold uppercase tracking-[0.4em]"
                         >
-                            Browse tours
+                            Discover tours
                         </button>
                     </div>
                 ) : (
                     <div className="grid gap-8 lg:grid-cols-[1.6fr,1fr]">
                         <div className="space-y-6">
                             {items.map((item) => (
-                                <div key={item._id} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_35px_80px_-60px_rgba(15,23,42,0.45)]">
+                                <div key={item._id} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_60px_140px_-80px_rgba(15,23,42,0.35)]">
                                     <div className="flex flex-col md:flex-row gap-6">
                                         <div className="md:w-48 w-full h-40 rounded-2xl overflow-hidden">
                                             <img
@@ -120,8 +150,8 @@ const Cart = () => {
                                         <div className="flex-1 space-y-4">
                                             <div className="flex items-start justify-between gap-4">
                                                 <div>
-                                                    <p className="text-xs uppercase tracking-[0.5em] text-slate-400">{item.tour?.country}</p>
-                                                    <h3 className="text-xl font-semibold text-slate-900">{item.tour?.title}</h3>
+                                                    <p className="text-[0.55rem] uppercase tracking-[0.5em] text-slate-400">{item.tour?.country}</p>
+                                                    <h3 className="text-2xl font-semibold text-slate-900">{item.tour?.title}</h3>
                                                     {item.startDate && (
                                                         <p className="text-sm text-slate-500">
                                                             Departing {new Date(item.startDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -131,7 +161,7 @@ const Cart = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => removeItem(item._id).catch(() => {})}
-                                                    className="text-rose-500 hover:text-rose-600"
+                                                    className="text-rose-500 hover:text-rose-400"
                                                 >
                                                     <FaTrash />
                                                 </button>
@@ -140,8 +170,8 @@ const Cart = () => {
                                         </div>
                                         <div className="flex flex-col justify-between rounded-2xl border border-slate-100 bg-slate-50 p-4 text-right">
                                             <div>
-                                                <p className="text-sm uppercase tracking-[0.4em] text-slate-400">Total</p>
-                                                <p className="text-2xl font-semibold text-slate-900">₹{(item.totalPrice || 0).toLocaleString('en-IN')}</p>
+                                                <p className="text-[0.55rem] uppercase tracking-[0.4em] text-slate-400">Total</p>
+                                                <p className="text-3xl font-semibold text-slate-900">₹{(item.totalPrice || 0).toLocaleString('en-IN')}</p>
                                                 <p className="text-xs text-slate-500">₹{(item.tour?.price || 0).toLocaleString('en-IN')} per adult</p>
                                             </div>
                                         </div>
@@ -163,18 +193,18 @@ const Cart = () => {
                         </div>
 
                         <div className="space-y-6">
-                            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_35px_80px_-60px_rgba(15,23,42,0.45)]">
+                            <div className="rounded-[2.3rem] border border-slate-200 bg-white p-7 shadow-[0_60px_140px_-80px_rgba(15,23,42,0.35)]">
                                 <div className="flex items-center gap-3">
                                     <FaCreditCard className="text-violet-500" />
                                     <div>
-                                        <p className="text-xs uppercase tracking-[0.5em] text-slate-400">Checkout</p>
-                                        <h2 className="text-xl font-semibold">Payment details</h2>
+                                        <p className="text-[0.55rem] uppercase tracking-[0.5em] text-slate-400">Checkout</p>
+                                        <h2 className="text-2xl font-semibold text-slate-900">Payment desk</h2>
                                     </div>
                                 </div>
 
                                 <div className="mt-6 space-y-4">
                                     <div className="grid gap-3">
-                                        <label className="text-[0.6rem] uppercase tracking-[0.5em] text-slate-400">Payment method</label>
+                                        <label className="text-[0.55rem] uppercase tracking-[0.5em] text-slate-400">Payment method</label>
                                         <select
                                             value={paymentMethod}
                                             onChange={(e) => setPaymentMethod(e.target.value)}
@@ -186,7 +216,7 @@ const Cart = () => {
                                         </select>
                                     </div>
                                     <div className="grid gap-3">
-                                        <label className="text-[0.6rem] uppercase tracking-[0.5em] text-slate-400">Provider</label>
+                                        <label className="text-[0.55rem] uppercase tracking-[0.5em] text-slate-400">Provider</label>
                                         <input
                                             value={paymentProvider}
                                             onChange={(e) => setPaymentProvider(e.target.value)}
@@ -195,7 +225,7 @@ const Cart = () => {
                                         />
                                     </div>
                                     <div className="grid gap-3">
-                                        <label className="text-[0.6rem] uppercase tracking-[0.5em] text-slate-400">Concierge note</label>
+                                        <label className="text-[0.55rem] uppercase tracking-[0.5em] text-slate-400">Concierge note</label>
                                         <textarea
                                             value={note}
                                             onChange={(e) => setNote(e.target.value)}
@@ -214,12 +244,12 @@ const Cart = () => {
                                     </label>
                                 </div>
 
-                                <div className="mt-8 space-y-3 border-t border-slate-200 pt-6">
-                                    <div className="flex justify-between text-sm text-slate-500">
+                                <div className="mt-8 space-y-4 border-t border-slate-200 pt-6 text-slate-600">
+                                    <div className="flex justify-between text-sm">
                                         <span>Subtotal</span>
                                         <span>₹{totals.subtotal.toLocaleString('en-IN')}</span>
                                     </div>
-                                    <div className="flex justify-between text-sm text-slate-500">
+                                    <div className="flex justify-between text-sm">
                                         <span>Taxes (18%)</span>
                                         <span>₹{totals.taxes.toLocaleString('en-IN')}</span>
                                     </div>
@@ -232,7 +262,7 @@ const Cart = () => {
                                         type="button"
                                         onClick={handleCheckout}
                                         disabled={processing || isEmpty}
-                                        className="mt-4 w-full rounded-full bg-gradient-to-r from-[#ff8fb1] via-[#f472b6] to-[#8b5cf6] px-6 py-3 text-sm font-semibold uppercase tracking-[0.35em] text-white disabled:opacity-50"
+                                        className="mt-4 w-full rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold uppercase tracking-[0.35em] text-white disabled:opacity-50"
                                     >
                                         {processing ? 'Processing...' : 'Pay & confirm'}
                                     </button>
@@ -243,7 +273,7 @@ const Cart = () => {
                                     >
                                         Continue shopping
                                     </button>
-                                    <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-600">
+                                    <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-700">
                                         <FaShieldAlt />
                                         Payments protected with bank-grade encryption.
                                     </div>

@@ -37,6 +37,7 @@ Create `.env` files inside both `backend/` and `frontend/` (CRA uses `REACT_APP_
 | Backend | `MONGODB_URI` | MongoDB connection string. |
 | Backend | `JWT_SECRET`, `REFRESH_TOKEN_SECRET` | Token signing secrets. |
 | Backend | `GOOGLE_CLIENT_ID` | OAuth Client ID for verifying Google ID tokens. |
+| Backend | `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_TTL` | Credentials + optional TTL for the concierge admin console. |
 | Frontend | `REACT_APP_API_BASE_URL` | Axios base URL (e.g., `http://localhost:5000`). |
 | Frontend | `REACT_APP_GOOGLE_CLIENT_ID` | Same OAuth Client ID as backend to render the Google button. |
 

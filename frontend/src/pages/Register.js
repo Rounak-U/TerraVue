@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import "./Register.css";
 import Mountains from "../assets/mountains.jpg";
 import Fall from "../assets/fall.jpg";
 import Hiking from "../assets/hiking.jpg";
 import Google from "../assets/google.png";
 import api from "../api/axios";
+import { useNotify } from "../context/NotifyContext";
 
 function Register() {
     const images = [Hiking, Fall, Mountains];
@@ -18,6 +18,7 @@ function Register() {
     const [password, setPassword] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
+    const notify = useNotify();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -33,7 +34,7 @@ function Register() {
         const passwordStrengthRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
         if (!passwordStrengthRegex.test(password)) {
-            toast.warn("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.");
+            notify.warning("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.");
             setIsSubmitting(false);
             return;
         }
@@ -48,21 +49,21 @@ function Register() {
             });
 
             if (response.data.success) {
-                toast.success("Account created! Redirecting to login...");
+                notify.success("Account created! Redirecting to login...");
                 setTimeout(() => navigate("/login"), 1500);
             } else {
-                toast.error(response.data.message || "Registration failed.");
+                notify.error(response.data.message || "Registration failed.");
             }
         } catch (error) {
             console.error("Registration error:", error);
-            toast.error(error.response?.data?.message || "Something went wrong!");
+            notify.error(error.response?.data?.message || "Something went wrong!");
         }
 
         setIsSubmitting(false);
     };
 
     const handleGoogleLogin = async () => {
-        toast.info("Google registration feature is not available.");
+        notify.info("Google registration feature is not available.");
     };
 
     return (

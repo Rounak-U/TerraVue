@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
 import DashboardNavbar from '../components/DashboardNavbar';
 import api from '../api/axios';
+import { useNotify } from '../context/NotifyContext';
 import {
     FaHeart,
     FaTrash,
@@ -18,6 +18,7 @@ const Favourites = () => {
     const navigate = useNavigate();
     const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
+    const notify = useNotify();
 
     const fetchFavorites = async () => {
         try {
@@ -25,7 +26,7 @@ const Favourites = () => {
             const { data } = await api.get('/api/favorites');
             setFavorites(data.favorites || []);
         } catch (err) {
-            toast.error('Unable to load favourites right now');
+            notify.error('Unable to load favourites right now');
         } finally {
             setLoading(false);
         }
@@ -40,9 +41,9 @@ const Favourites = () => {
         try {
             const { data } = await api.delete(`/api/favorites/${tourId}`);
             setFavorites(data.favorites || []);
-            toast.info('Removed from favourites');
+            notify.info('Removed from favourites');
         } catch (err) {
-            toast.error('Failed to update favourites');
+            notify.error('Failed to update favourites');
         }
     };
 

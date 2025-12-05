@@ -159,7 +159,7 @@ router.delete('/item/:itemId', authMiddleware, async (req, res) => {
             return res.status(404).json({ message: 'Cart item not found' });
         }
 
-        cartItem.remove();
+        cart.items.pull(itemId);
         await cart.save();
         await cart.populate('items.tour');
 

@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
 import api from '../api/axios';
+import { useNotify } from './NotifyContext';
 
 const CartContext = createContext();
 
@@ -8,13 +8,14 @@ export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState(null);
     const [loading, setLoading] = useState(true);
     const [processing, setProcessing] = useState(false);
+    const notify = useNotify();
 
     const refreshCart = useCallback(async () => {
         try {
             const { data } = await api.get('/api/cart');
             setCart(data);
         } catch (error) {
-            // If the user is not authenticated, keep an empty cart structure without spamming toasts
+            // If the user is not authenticated, keep an empty cart structure without spamming notifications
             setCart({ items: [], totalAmount: 0, currency: 'INR' });
         } finally {
             setLoading(false);
@@ -25,13 +26,13 @@ export const CartProvider = ({ children }) => {
         try {
             await api.post('/api/cart/add', payload);
             await refreshCart();
-            toast.success('Added to cart');
+            notify.success('Added to cart');
         } catch (error) {
             const message = error.response?.data?.message || 'Failed to add to cart';
-            toast.error(message);
+            notify.error(message);
             throw error;
         }
-    }, [refreshCart]);
+    }, [refreshCart, notify]);
 
     const updateItem = useCallback(async (itemId, payload) => {
         try {
@@ -39,50 +40,50 @@ export const CartProvider = ({ children }) => {
             await refreshCart();
         } catch (error) {
             const message = error.response?.data?.message || 'Unable to update cart item';
-            toast.error(message);
+            notify.error(message);
             throw error;
         }
-    }, [refreshCart]);
+    }, [refreshCart, notify]);
 
     const removeItem = useCallback(async (itemId) => {
         try {
             await api.delete(`/api/cart/item/${itemId}`);
             await refreshCart();
-            toast.info('Item removed');
+            notify.info('Item removed');
         } catch (error) {
             const message = error.response?.data?.message || 'Unable to remove item';
-            toast.error(message);
+            notify.error(message);
             throw error;
         }
-    }, [refreshCart]);
+    }, [refreshCart, notify]);
 
     const clearCart = useCallback(async () => {
         try {
             await api.delete('/api/cart/clear');
             await refreshCart();
-            toast.info('Cart cleared');
+            notify.info('Cart cleared');
         } catch (error) {
             const message = error.response?.data?.message || 'Unable to clear cart';
-            toast.error(message);
+            notify.error(message);
             throw error;
         }
-    }, [refreshCart]);
+    }, [refreshCart, notify]);
 
     const checkout = useCallback(async (payload = {}) => {
         setProcessing(true);
         try {
             const { data } = await api.post('/api/bookings/checkout', payload);
             await refreshCart();
-            toast.success('Payment successful');
+            notify.success('Payment successful');
             return data;
         } catch (error) {
             const message = error.response?.data?.message || 'Checkout failed';
-            toast.error(message);
+            notify.error(message);
             throw error;
         } finally {
             setProcessing(false);
         }
-    }, [refreshCart]);
+    }, [refreshCart, notify]);
 
     useEffect(() => {
         refreshCart();

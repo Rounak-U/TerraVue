@@ -1,0 +1,113 @@
+.notify-stack {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 2000;
+    pointer-events: none;
+}
+
+@media (max-width: 640px) {
+    .notify-stack {
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: 1.5rem;
+        align-items: center;
+    }
+}
+
+.notify-card {
+    --accent: linear-gradient(120deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    width: min(320px, 90vw);
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    border-radius: 1.25rem;
+    padding: 1.05rem 1.35rem;
+    border: 1px solid transparent;
+    background:
+        linear-gradient(145deg, rgba(10, 10, 12, 0.82), rgba(18, 18, 22, 0.78)) padding-box,
+        var(--accent) border-box;
+    background-clip: padding-box, border-box;
+    color: rgba(243, 243, 243, 0.92);
+    box-shadow: 0 30px 70px -45px rgba(0, 0, 0, 0.95);
+    pointer-events: auto;
+    animation: notify-slide 0.35s ease;
+    backdrop-filter: blur(24px);
+}
+
+.notify-card.success {
+    --accent: linear-gradient(130deg, #4ade80, #1f8a70);
+}
+
+.notify-card.error {
+    --accent: linear-gradient(130deg, #fb7185, #b91c1c);
+}
+
+.notify-card.info {
+    --accent: linear-gradient(130deg, #60a5fa, #1e3a8a);
+}
+
+.notify-card.warning {
+    --accent: linear-gradient(130deg, #fcd34d, #b45309);
+}
+
+.notify-indicator {
+    width: 6px;
+    height: 48px;
+    border-radius: 999px;
+    background: var(--accent);
+    opacity: 0.95;
+}
+
+.notify-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notify-message {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.notify-description {
+    margin: 0.25rem 0 0;
+    font-size: 0.82rem;
+    opacity: 0.75;
+    color: rgba(243, 243, 243, 0.8);
+}
+
+.notify-dismiss {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.04);
+    color: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.3rem 0.55rem;
+    line-height: 1;
+    border-radius: 999px;
+    opacity: 0.75;
+    transition: opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.notify-dismiss:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+@keyframes notify-slide {
+    from {
+        transform: translateY(-10px) scale(0.96);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}

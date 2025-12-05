@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import "./LogIn.css";
 import Mountains from "../assets/mountains.jpg";
 import Fall from "../assets/fall.jpg";
 import Hiking from "../assets/hiking.jpg";
 import api from "../api/axios";
+import adminApi, { ADMIN_TOKEN_KEY, persistAdminProfile } from "../api/admin";
 import { GoogleLogin } from "@react-oauth/google";
+import { useNotify } from "../context/NotifyContext";
 
-function LogIn() {
+function LogIn({ initialMode = "traveler" }) {
     const images = [Hiking, Fall, Mountains];
     const [currentImage, setCurrentImage] = useState(0);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+    const [authMode, setAuthMode] = useState(initialMode);
     const navigate = useNavigate();
     const isGoogleConfigured = Boolean(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+    const notify = useNotify();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -25,6 +28,33 @@ function LogIn() {
         }, 10000);
         return () => clearInterval(interval);
     }, [images.length]);
+
+    useEffect(() => {
+        setAuthMode(initialMode);
+    }, [initialMode]);
+
+    const modeCopy = {
+        traveler: {
+            heading: "Log in",
+            subText: (
+                <p>
+                    Don't have an account? <Link to="/register">Sign up</Link>
+                </p>
+            ),
+            cta: "Log in",
+        },
+        admin: {
+            heading: "Admin console access",
+            subText: (
+                <div className="login-helper-card">
+                    <p>Use the concierge credentials shared with operations.</p>
+                    <div className="admin-credential-chip">Email: admin@gmail.com</div>
+                    <div className="admin-credential-chip">Password: Admin@123</div>
+                </div>
+            ),
+            cta: "Enter console",
+        },
+    };
 
     const persistSession = (payload) => {
         if (!payload) return;
@@ -40,8 +70,7 @@ function LogIn() {
         }
     };
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+    const handleTravelerLogin = async () => {
         setIsSubmitting(true);
 
         try {
@@ -52,22 +81,47 @@ function LogIn() {
 
             if (response.data.success) {
                 persistSession(response.data);
-                toast.success("Login successful!");
-                setTimeout(() => navigate("/dashboard"), 800); // redirect to dashboard
+                notify.success("Login successful!");
+                setTimeout(() => navigate("/dashboard"), 800);
             } else {
-                toast.error(response.data.message || "Login failed.");
+                notify.error(response.data.message || "Login failed.");
             }
         } catch (error) {
             console.error("Login error:", error);
-            toast.error(error.response?.data?.message || "Something went wrong!");
+            notify.error(error.response?.data?.message || "Something went wrong!");
         }
 
         setIsSubmitting(false);
     };
 
+    const handleAdminLogin = async () => {
+        setIsSubmitting(true);
+        try {
+            const { data } = await adminApi.post("/api/admin/login", { email: email.trim().toLowerCase(), password });
+            localStorage.setItem(ADMIN_TOKEN_KEY, data.accessToken);
+            persistAdminProfile(data.admin);
+            notify.success("Admin verified. Redirecting to console...");
+            setTimeout(() => navigate("/admin/support"), 600);
+        } catch (err) {
+            const message = err?.response?.data?.message || "Unable to sign in right now";
+            notify.error(message);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        if (authMode === "admin") {
+            await handleAdminLogin();
+        } else {
+            await handleTravelerLogin();
+        }
+    };
+
     const handleGoogleSuccess = async (credentialResponse) => {
         if (!credentialResponse?.credential) {
-            toast.error("Unable to verify Google credential");
+            notify.error("Unable to verify Google credential");
             return;
         }
 
@@ -79,21 +133,21 @@ function LogIn() {
 
             if (response.data.success) {
                 persistSession(response.data);
-                toast.success("Logged in with Google");
+                notify.success("Logged in with Google");
                 setTimeout(() => navigate("/dashboard"), 600);
             } else {
-                toast.error(response.data.message || "Google login failed");
+                notify.error(response.data.message || "Google login failed");
             }
         } catch (error) {
             console.error("Google login error:", error);
-            toast.error(error.response?.data?.message || "Unable to sign in with Google");
+            notify.error(error.response?.data?.message || "Unable to sign in with Google");
         } finally {
             setIsGoogleLoading(false);
         }
     };
 
     const handleGoogleError = () => {
-        toast.error("Google login was cancelled or failed. Please try again.");
+        notify.error("Google login was cancelled or failed. Please try again.");
     };
 
     return (
@@ -118,9 +172,23 @@ function LogIn() {
 
             {/* Right Section with Form */}
             <div className="login-form-section">
-                <div className="login-form">
-                    <h2>Log in</h2>
-                    <p>Don't have an account? <Link to="/register">Sign up</Link></p>
+                <div className={`login-form ${authMode === "admin" ? "login-form-admin" : ""}`}>
+                    <div className="login-mode-switch">
+                        {["traveler", "admin"].map((mode) => (
+                            <button
+                                key={mode}
+                                type="button"
+                                className={`login-mode-button ${authMode === mode ? "active" : ""}`}
+                                onClick={() => setAuthMode(mode)}
+                            >
+                                {mode === "traveler" ? "Traveler" : "Admin"}
+                            </button>
+                        ))}
+                    </div>
+                    <h2 className={`login-heading ${authMode === "admin" ? "login-heading-admin" : ""}`}>
+                        {modeCopy[authMode].heading}
+                    </h2>
+                    {modeCopy[authMode].subText}
 
                     <form onSubmit={handleLogin}>
                         <input
@@ -144,32 +212,39 @@ function LogIn() {
                             type="submit"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? "Logging in..." : "Log in"}
+                            {isSubmitting ? "Processing..." : modeCopy[authMode].cta}
                         </motion.button>
                     </form>
 
-                    <div className="login-options">
-                        <p className="registerp">Or Log In With</p>
-                        <div className="social-login">
-                            {isGoogleConfigured ? (
-                                <div className="google-btn-wrapper">
-                                    <GoogleLogin
-                                        onSuccess={handleGoogleSuccess}
-                                        onError={handleGoogleError}
-                                        shape="pill"
-                                        theme="outline"
-                                        text="signin_with"
-                                        width="260"
-                                    />
-                                    {isGoogleLoading && <p className="google-loading">Connecting to Google...</p>}
-                                </div>
-                            ) : (
-                                <button className="google-btn" disabled>
-                                    Google Sign-In unavailable
-                                </button>
-                            )}
+                    {authMode === "traveler" ? (
+                        <div className="login-options">
+                            <p className="registerp">Or Log In With</p>
+                            <div className="social-login">
+                                {isGoogleConfigured ? (
+                                    <div className="google-btn-wrapper">
+                                        <div className="google-btn-embed">
+                                            <GoogleLogin
+                                                onSuccess={handleGoogleSuccess}
+                                                onError={handleGoogleError}
+                                                shape="pill"
+                                                theme="outline"
+                                                text="signin_with"
+                                            />
+                                        </div>
+                                        {isGoogleLoading && <p className="google-loading">Connecting to Google...</p>}
+                                    </div>
+                                ) : (
+                                    <button className="google-btn" disabled>
+                                        Google Sign-In unavailable
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <p className="login-admin-note">
+                            Need traveler access? Switch back to the Traveler tab.
+                        </p>
+                    )}
                 </div>
             </div>
         </div>

@@ -4,7 +4,10 @@ const mongoose = require('mongoose');
 const Booking = require('../models/Booking');
 const Tour = require('../models/Tour');
 const Cart = require('../models/Cart');
+const User = require('../models/User');
 const authMiddleware = require('../middleware/authMiddleware');
+const puppeteer = require('puppeteer');
+const generateInvoiceHtml = require('../utils/generateInvoiceHtml');
 
 const buildEndDate = (startDate, durationDays) => {
     if (!startDate) return null;
@@ -117,6 +120,52 @@ router.get('/my-bookings', authMiddleware, async (req, res) => {
         res.json(bookings);
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch bookings', error: error.message });
+    }
+});
+
+// DOWNLOAD invoice
+router.get('/:bookingId/invoice', authMiddleware, async (req, res) => {
+    try {
+        const booking = await Booking.findById(req.params.bookingId).populate('tour');
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        if (booking.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+
+        const user = await User.findById(req.user.id);
+        const html = generateInvoiceHtml({ booking, user });
+
+        const browser = await puppeteer.launch({
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH
+        });
+        const page = await browser.newPage();
+        await page.setContent(html, { waitUntil: 'networkidle0' });
+        const pdfBuffer = await page.pdf({
+            format: 'A4',
+            printBackground: true,
+            margin: { top: '20mm', bottom: '20mm', left: '16mm', right: '16mm' }
+        });
+        await browser.close();
+
+        const buffer = Buffer.isBuffer(pdfBuffer) ? pdfBuffer : Buffer.from(pdfBuffer);
+
+        const filename = `TerraVue_Invoice_${booking.bookingReference || booking._id}.pdf`;
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `attachment; filename="${filename}"`,
+            'Content-Length': buffer.length
+        });
+
+        return res.send(buffer);
+    } catch (error) {
+        console.error('Invoice generation failed', error);
+        res.status(500).json({ message: 'Failed to generate invoice', error: error.message });
     }
 });
 

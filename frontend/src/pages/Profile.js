@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import { toast } from 'react-toastify';
 import DashboardNavbar from '../components/DashboardNavbar';
 import { FaUser, FaLock, FaMapMarkerAlt, FaShieldAlt, FaTrash, FaCheck, FaEdit } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import 'react-toastify/dist/ReactToastify.css';
+import { useNotify } from '../context/NotifyContext';
 
 const Profile = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState({ name: '', email: '', lastLogin: '', shippingAddress: '', billingAddress: '' });
     const [loading, setLoading] = useState(true);
+    const notify = useNotify();
 
     const [newName, setNewName] = useState('');
     const [newEmail, setNewEmail] = useState('');
@@ -35,12 +35,12 @@ const Profile = () => {
                 setBillingAddress(res.data.billingAddress || '');
                 setLoading(false);
             } catch (err) {
-                toast.error('Failed to load profile');
+                notify.error('Failed to load profile');
                 setLoading(false);
             }
         };
         fetchProfile();
-    }, [token]);
+    }, [token, notify]);
 
     const persistProfile = async (successMessage) => {
         try {
@@ -51,9 +51,9 @@ const Profile = () => {
                 billingAddress
             });
             setUser(res.data);
-            toast.success(successMessage);
+            notify.success(successMessage);
         } catch (err) {
-            toast.error('Unable to update profile right now');
+            notify.error('Unable to update profile right now');
         }
     };
 
@@ -70,7 +70,7 @@ const Profile = () => {
     const handleChangePassword = async (e) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
-            toast.error('Passwords do not match');
+            notify.error('Passwords do not match');
             return;
         }
         try {
@@ -78,12 +78,12 @@ const Profile = () => {
                 oldPassword,
                 newPassword
             });
-            toast.success('Password changed successfully!');
+            notify.success('Password changed successfully!');
             setOldPassword('');
             setNewPassword('');
             setConfirmPassword('');
         } catch (err) {
-            toast.error('Failed to change password');
+            notify.error('Failed to change password');
         }
     };
 
@@ -92,12 +92,12 @@ const Profile = () => {
         try {
             await api.delete('/api/auth/delete-account');
             localStorage.clear();
-            toast.success('Account deleted');
+            notify.success('Account deleted');
             setTimeout(() => {
                 window.location.href = '/';
             }, 1500);
         } catch (err) {
-            toast.error('Failed to delete account');
+            notify.error('Failed to delete account');
         }
     };
 

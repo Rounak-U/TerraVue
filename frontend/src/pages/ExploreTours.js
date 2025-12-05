@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardNavbar from '../components/DashboardNavbar';
 import api from '../api/axios';
 import { motion } from 'framer-motion';
 import { FaSearch, FaStar, FaMapMarkerAlt, FaCalendarAlt, FaUsers, FaHeart, FaSignal } from 'react-icons/fa';
 import { toursData } from '../data/tours';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useNotify } from '../context/NotifyContext';
 
 const ExploreTours = () => {
     const navigate = useNavigate();
-    const [tours, setTours] = useState([]);
     const [filteredTours, setFilteredTours] = useState([]);
     const [loading, setLoading] = useState(true);
     const [favorites, setFavorites] = useState([]);
+    const notify = useNotify();
 
     // Filters
     const [searchTerm, setSearchTerm] = useState('');
@@ -23,6 +22,100 @@ const ExploreTours = () => {
     const [sortBy, setSortBy] = useState('newest');
 
     const categories = ['All', 'Beach', 'Mountain', 'City', 'Adventure', 'Culture', 'Luxury'];
+
+    const tourImageOverrides = useMemo(() => ({
+        'Morocco Desert Safari': '/images/tours/Morocco.jpg',
+        'Patagonia Adventure': '/images/tours/Patagonia.jpg',
+        'Caribbean Cruise': '/images/tours/Caribbean.jpg',
+        'Iceland Glaciers & Geysers': '/images/tours/Iceland.jpg',
+        'Amazon Rainforest Expedition': '/images/tours/Amazon.jpg',
+        'Egypt Ancient Wonders': '/images/tours/Egypt.jpg',
+        'Tokyo City Adventure': '/images/tours/Tokyo.jpg',
+        'Swiss Alps Mountain Trek': '/images/tours/Swiss.jpg',
+        'Kerala Backwater Retreat': '/images/tours/Backwaters.jpeg',
+        'Rajasthan Palace Circuit': '/images/tours/rajasthan.jpg',
+        'Ladakh Overland Expedition': '/images/tours/Ladakh.jpg',
+        'Meghalaya Living Roots Trail': '/images/tours/Meghalaya.jpg',
+        'Goa Slow Beach Weekender': '/images/tours/Goa.jpeg',
+        'Varanasi Spiritual Sojourn': '/images/tours/Varanasi.jpg',
+        'Hampi Heritage Walk': '/images/tours/Hampi.jpg',
+        'Andaman Island Escape': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+        'Rishikesh Wellness Retreat': '/images/tours/Rishikesh.jpg'
+    }), []);
+
+    const withImageOverrides = useCallback(
+        (list = []) =>
+            list.map((tour) => {
+                const override = tourImageOverrides[tour.title];
+                return override && tour.image !== override ? { ...tour, image: override } : tour;
+            }),
+        [tourImageOverrides]
+    );
+
+    const getTourKey = useCallback((tour = {}) => {
+        const titleKey = tour.title?.trim().toLowerCase();
+        if (titleKey) return titleKey;
+        const idKey = (tour._id || tour.id)?.toString().toLowerCase();
+        if (idKey) return idKey;
+        return JSON.stringify(tour);
+    }, []);
+
+    const mergeTours = useCallback((primary = [], fallback = []) => {
+        const deduped = new Map();
+
+        primary.forEach((tour) => {
+            const key = getTourKey(tour);
+            if (key && !deduped.has(key)) {
+                deduped.set(key, tour);
+            }
+        });
+
+        fallback.forEach((tour) => {
+            const key = getTourKey(tour);
+            if (key && !deduped.has(key)) {
+                deduped.set(key, tour);
+            }
+        });
+
+        return Array.from(deduped.values());
+    }, [getTourKey]);
+
+    const localToursWithOverrides = useMemo(() => withImageOverrides(toursData), [withImageOverrides]);
+
+    const applyLocalFilters = useCallback((toursToFilter = []) => {
+        let filtered = [...toursToFilter];
+
+        if (searchTerm) {
+            filtered = filtered.filter(tour =>
+                tour.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                tour.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                tour.description.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        if (selectedCategory !== 'All') {
+            filtered = filtered.filter(tour => tour.category === selectedCategory);
+        }
+
+        if (minPrice) {
+            filtered = filtered.filter(tour => tour.price >= parseFloat(minPrice));
+        }
+        if (maxPrice) {
+            filtered = filtered.filter(tour => tour.price <= parseFloat(maxPrice));
+        }
+
+        if (sortBy === 'price-low') {
+            filtered.sort((a, b) => a.price - b.price);
+        } else if (sortBy === 'price-high') {
+            filtered.sort((a, b) => b.price - a.price);
+        } else if (sortBy === 'rating') {
+            filtered.sort((a, b) => b.rating - a.rating);
+        } else if (sortBy === 'newest') {
+            filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        }
+
+        setFilteredTours(filtered);
+    }, [searchTerm, selectedCategory, minPrice, maxPrice, sortBy]);
 
     // Fetch tours
     useEffect(() => {
@@ -39,19 +132,18 @@ const ExploreTours = () => {
                 try {
                     const response = await api.get(`/api/tours?${params.toString()}`);
                     // Handle both array and object response formats
-                    const toursData = Array.isArray(response.data) ? response.data : response.data.tours || [];
-                    setTours(toursData);
-                    setFilteredTours(toursData);
+                    const remoteTours = Array.isArray(response.data) ? response.data : response.data.tours || [];
+                    const normalizedTours = withImageOverrides(remoteTours);
+                    const mergedTours = mergeTours(normalizedTours, localToursWithOverrides);
+                    applyLocalFilters(mergedTours);
                 } catch (apiError) {
                     console.warn('Backend not available, using local data:', apiError);
                     // Fallback to local data
-                    setTours(toursData);
-                    applyLocalFilters(toursData);
+                    applyLocalFilters(localToursWithOverrides);
                 }
             } catch (error) {
                 console.error('Failed to fetch tours:', error);
-                setTours(toursData);
-                setFilteredTours(toursData);
+                applyLocalFilters(localToursWithOverrides);
             } finally {
                 setLoading(false);
             }
@@ -59,47 +151,7 @@ const ExploreTours = () => {
 
         const debounceTimer = setTimeout(fetchTours, 300);
         return () => clearTimeout(debounceTimer);
-    }, [searchTerm, selectedCategory, minPrice, maxPrice, sortBy]);
-
-    // Apply local filtering when using local data
-    const applyLocalFilters = (toursToFilter) => {
-        let filtered = toursToFilter;
-
-        // Search filter
-        if (searchTerm) {
-            filtered = filtered.filter(tour =>
-                tour.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                tour.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                tour.description.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-        }
-
-        // Category filter
-        if (selectedCategory !== 'All') {
-            filtered = filtered.filter(tour => tour.category === selectedCategory);
-        }
-
-        // Price range filter
-        if (minPrice) {
-            filtered = filtered.filter(tour => tour.price >= parseFloat(minPrice));
-        }
-        if (maxPrice) {
-            filtered = filtered.filter(tour => tour.price <= parseFloat(maxPrice));
-        }
-
-        // Sort filter
-        if (sortBy === 'price-low') {
-            filtered.sort((a, b) => a.price - b.price);
-        } else if (sortBy === 'price-high') {
-            filtered.sort((a, b) => b.price - a.price);
-        } else if (sortBy === 'rating') {
-            filtered.sort((a, b) => b.rating - a.rating);
-        } else if (sortBy === 'newest') {
-            filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        }
-
-        setFilteredTours(filtered);
-    };
+    }, [searchTerm, selectedCategory, minPrice, maxPrice, sortBy, applyLocalFilters, withImageOverrides, mergeTours, localToursWithOverrides]);
 
     useEffect(() => {
         const fetchFavorites = async () => {
@@ -128,14 +180,14 @@ const ExploreTours = () => {
             if (favorites.includes(tourId)) {
                 await api.delete(`/api/favorites/${tourId}`);
                 setFavorites((prev) => prev.filter((id) => id !== tourId));
-                toast.info('Removed from favourites');
+                notify.info('Removed from favourites');
             } else {
                 await api.post('/api/favorites', { tourId });
                 setFavorites((prev) => [...prev, tourId]);
-                toast.success('Added to favourites');
+                notify.success('Added to favourites');
             }
         } catch (err) {
-            toast.error('Unable to update favourites');
+            notify.error('Unable to update favourites');
         }
     };
 

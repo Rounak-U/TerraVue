@@ -10,9 +10,9 @@ import {
 } from 'react-icons/fa';
 import axios from 'axios';
 import api from '../api/axios';
-import { toast } from 'react-toastify';
 import { toursData } from '../data/tours';
 import { useCart } from '../context/CartContext';
+import { useNotify } from '../context/NotifyContext';
 
 const TourDetail = () => {
     const { tourTitle } = useParams();
@@ -30,6 +30,7 @@ const TourDetail = () => {
     const [isFavorite, setIsFavorite] = useState(false);
     const [reviewsVisible, setReviewsVisible] = useState(false);
     const [expandedDay, setExpandedDay] = useState(null);
+    const notify = useNotify();
 
     useEffect(() => {
         const fetchTour = async () => {
@@ -72,12 +73,12 @@ const TourDetail = () => {
     const handleAddToCart = async () => {
         const resolvedTourId = tour?._id || tour?.id;
         if (!resolvedTourId) {
-            toast.error('Unable to locate this tour in the catalogue');
+            notify.error('Unable to locate this tour in the catalogue');
             return;
         }
 
         if (!startDate) {
-            toast.error('Pick a travel date to continue');
+            notify.error('Pick a travel date to continue');
             return;
         }
 
@@ -92,11 +93,9 @@ const TourDetail = () => {
                 startDate,
             });
             setAddSuccess(true);
-            setTimeout(() => {
-                navigate('/cart');
-            }, 1400);
+            notify.success('Seats held in your cart');
         } catch (error) {
-            // addItem already toasts the message, so we only reset local state here
+            // addItem already triggers a notification, so we only reset local state here
         } finally {
             setAdding(false);
         }
@@ -144,6 +143,59 @@ const TourDetail = () => {
         { icon: FaTicketAlt, label: 'Entrance Fees' },
     ];
 
+    const vibeLookup = {
+        Beach: 'Slow coastal',
+        Mountain: 'High-altitude calm',
+        City: 'Design-led urban',
+        Adventure: 'Adrenaline & awe',
+        Culture: 'Story-rich wander',
+        Luxury: 'Curated indulgence'
+    };
+
+    const effortLookup = {
+        Easy: 'Relaxed pace',
+        Moderate: 'Balanced pace',
+        Hard: 'High energy'
+    };
+
+    const exploreInsights = [
+        {
+            label: 'Journey vibe',
+            value: vibeLookup[tour.category] || 'Curated escape',
+            icon: FaUmbrella
+        },
+        {
+            label: 'Energy level',
+            value: effortLookup[tour.difficulty] || 'Flexible',
+            icon: FaWalking
+        },
+        {
+            label: 'Climate window',
+            value: tour.weather || 'Mild 18°-25°C',
+            icon: FaThermometerHalf
+        }
+    ];
+
+    const isIndiaJourney = tour.country?.toLowerCase() === 'india';
+
+    const immersionTracks = [
+        {
+            title: 'Local circles',
+            meta: isIndiaJourney ? 'Handlooms, ghats, and craft ateliers' : `Meet makers across ${tour.country}`,
+            icon: FaMapMarker
+        },
+        {
+            title: 'Taste studio',
+            meta: isIndiaJourney ? 'Regional thalis + spice ateliers' : 'Chef-led tasting menus',
+            icon: FaUtensils
+        },
+        {
+            title: 'Flow & movement',
+            meta: isIndiaJourney ? 'Ganga-side yoga & mindful hikes' : 'Nature-forward wellness slots',
+            icon: FaDumbbell
+        }
+    ];
+
     const highlights = tour.highlights || [
         'Stunning mountain vistas',
         'Local cultural experiences',
@@ -182,6 +234,12 @@ const TourDetail = () => {
                         <p className="text-sm font-semibold tracking-[0.3em] text-slate-700">Detailed Tour</p>
                     </div>
                     <div className="justify-self-end flex items-center gap-3">
+                        <button
+                            onClick={() => navigate('/cart')}
+                            className="flex items-center gap-2 text-xs font-semibold tracking-[0.3em] uppercase px-4 py-2 rounded-full bg-black text-white transition hover:opacity-85"
+                        >
+                            <FaShoppingCart size={16} /> Cart
+                        </button>
                         <button className="text-slate-400 hover:text-slate-900 transition">
                             <FaShare size={16} />
                         </button>
@@ -196,14 +254,14 @@ const TourDetail = () => {
                                     if (isFavorite) {
                                         await api.delete(`/api/favorites/${tour._id}`);
                                         setIsFavorite(false);
-                                        toast.info('Removed from favourites');
+                                        notify.info('Removed from favourites');
                                     } else {
                                         await api.post('/api/favorites', { tourId: tour._id });
                                         setIsFavorite(true);
-                                        toast.success('Added to favourites');
+                                        notify.success('Added to favourites');
                                     }
                                 } catch (err) {
-                                    toast.error('Unable to update favourites');
+                                    notify.error('Unable to update favourites');
                                 }
                             }}
                             className={`transition ${isFavorite ? 'text-rose-500 scale-110' : 'text-slate-400 hover:text-rose-600'}`}
@@ -266,6 +324,52 @@ const TourDetail = () => {
                             <p className="text-lg font-semibold text-slate-900">{stat.value}</p>
                         </div>
                     ))}
+                </section>
+
+                <section className="rounded-[2.7rem] border border-slate-100 bg-white/95 backdrop-blur px-6 py-8 sm:px-10 space-y-8 shadow-[0_30px_90px_-60px_rgba(15,23,42,0.65)]">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                        <div>
+                            <p className="text-[0.6rem] uppercase tracking-[0.5em] text-slate-400">Explore details</p>
+                            <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 leading-tight mt-2">
+                                A modern playbook for {isIndiaJourney ? 'slow-travel India' : `${tour.country} wanderers`}
+                            </h3>
+                            <p className="text-sm text-slate-500 mt-2">
+                                Built with micro-itineraries, concierge intel, and culture-forward pauses so you can experience more with less rush.
+                            </p>
+                        </div>
+                        <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-[0.65rem] uppercase tracking-[0.45em] text-slate-500">
+                            Explorer mode
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        </div>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-3">
+                        {exploreInsights.map((insight) => (
+                            <div key={insight.label} className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5 flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-slate-800">
+                                    <insight.icon />
+                                </div>
+                                <div>
+                                    <p className="text-[0.55rem] uppercase tracking-[0.4em] text-slate-400">{insight.label}</p>
+                                    <p className="text-sm font-semibold text-slate-800">{insight.value}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-3">
+                        {immersionTracks.map((track) => (
+                            <div key={track.title} className="rounded-[1.9rem] border border-slate-100 bg-white p-5 shadow-[0_20px_50px_-40px_rgba(15,23,42,0.9)]">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center">
+                                        <track.icon size={16} />
+                                    </div>
+                                    <p className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-600">{track.title}</p>
+                                </div>
+                                <p className="text-sm text-slate-500 leading-relaxed">{track.meta}</p>
+                            </div>
+                        ))}
+                    </div>
                 </section>
 
                 <section className="grid gap-4 lg:grid-cols-3">
@@ -484,6 +588,15 @@ const TourDetail = () => {
                             >
                                 {addSuccess ? <><FaCheckCircle /> Seat held</> : <><FaShoppingCart /> Hold seat</>}
                             </button>
+
+                            {addSuccess && (
+                                <button
+                                    onClick={() => navigate('/cart')}
+                                    className="w-full mt-3 py-3 rounded-2xl bg-black text-white text-[0.65rem] font-semibold tracking-[0.45em] uppercase flex items-center justify-center gap-2 hover:opacity-85 transition"
+                                >
+                                    <FaShoppingCart /> Go to cart
+                                </button>
+                            )}
                         </div>
 
                         <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">

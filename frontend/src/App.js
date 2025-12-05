@@ -1,7 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'; // <- import toastify styles
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
@@ -25,13 +23,17 @@ import BookingSuccess from "./pages/BookingSuccess";
 import Favourites from "./pages/Favourites";
 import SupportCenter from "./pages/SupportCenter";
 import MyBookings from "./pages/MyBookings";
+import AdminLogin from "./pages/AdminLogin";
+import AdminSupportDesk from "./pages/AdminSupportDesk";
+import AdminRoute from "./components/AdminRoute";
 import { CartProvider } from './context/CartContext';
+import { NotificationProvider } from './context/NotifyContext';
 
 function Layout() {
   const location = useLocation();
 
   // Pages where Navbar should be hidden
-  const hideNavbarPaths = ["/login", "/register"];
+  const hideNavbarPaths = ["/login", "/register", "/admin/login"];
 
   const showNavbar =
     !hideNavbarPaths.includes(location.pathname.toLowerCase()) &&
@@ -43,7 +45,8 @@ function Layout() {
     !location.pathname.startsWith("/explore-tours") &&
     !location.pathname.startsWith("/favourites") &&
     !location.pathname.startsWith("/support-center") &&
-    !location.pathname.startsWith("/bookings");
+    !location.pathname.startsWith("/bookings") &&
+    !location.pathname.startsWith("/admin");
 
   return (
     <div className="app">
@@ -55,6 +58,7 @@ function Layout() {
         <Route path="/support" element={<Support />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LogIn />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/tour" element={<Navigate to="/dashboard" replace />} />
         <Route path="/about" element={<About />} />
         <Route path="/blogs" element={<Blogs />} />
@@ -70,18 +74,8 @@ function Layout() {
         <Route path="/favourites" element={<ProtectedRoute element={<Favourites />} />} />
         <Route path="/support-center" element={<ProtectedRoute element={<SupportCenter />} />} />
         <Route path="/bookings" element={<ProtectedRoute element={<MyBookings />} />} />
+        <Route path="/admin/support" element={<AdminRoute element={<AdminSupportDesk />} />} />
       </Routes>
-
-      {/* Global ToastContainer */}
-      <ToastContainer
-        position="top-right"
-        autoClose={2500}
-        hideProgressBar={true}
-        closeButton={false}
-        newestOnTop={true}
-        limit={1}
-      />
-
 
     </div>
   );
@@ -89,11 +83,13 @@ function Layout() {
 
 function App() {
   return (
-    <Router>
-      <CartProvider>
-        <Layout />
-      </CartProvider>
-    </Router>
+    <NotificationProvider>
+      <Router>
+        <CartProvider>
+          <Layout />
+        </CartProvider>
+      </Router>
+    </NotificationProvider>
   );
 }
 
