@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-    FaArrowLeft, FaStar, FaCalendarAlt, FaUsers, FaMapMarkerAlt, FaClock,
-    FaShoppingCart, FaCheckCircle, FaWalking, FaCampground, FaUtensils,
-    FaCamera, FaHotel, FaWifi, FaSwimmingPool, FaDumbbell, FaCheck,
-    FaChevronRight, FaHeart, FaShare, FaPhone, FaEnvelope, FaMapPin,
-    FaTicketAlt, FaUmbrella, FaThermometerHalf, FaBus, FaMapMarker, FaInfo,
-    FaQuoteLeft, FaThumbsUp, FaTrophy, FaShieldAlt, FaGlobe, FaCreditCard
+    FaArrowLeft, FaStar,
+    FaShoppingCart, FaCheckCircle, FaWalking, FaUtensils,
+    FaCamera, FaHotel, FaWifi, FaDumbbell, FaCheck,
+    FaHeart, FaShare, FaPhone, FaEnvelope,
+    FaTicketAlt, FaUmbrella, FaThermometerHalf, FaBus, FaMapMarker, 
+    FaThumbsUp, FaTrophy, FaShieldAlt, FaGlobe, FaCreditCard
 } from 'react-icons/fa';
 import axios from 'axios';
 import api from '../api/axios';
