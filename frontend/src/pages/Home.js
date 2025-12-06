@@ -1,8 +1,7 @@
 import React from "react";
 import "./Home.css";
 import SampleVideo from "../assets/GW.mp4";
-import Navbar from "../components/Navbar";
-import { animate, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Search from "../assets/search.png";
 import Book from "../assets/book.png";
 import Payment from "../assets/payment.png";
@@ -158,7 +157,7 @@ function Home() {
                                 transition={{ duration: 0.2 }}
                             >
 
-                                <img src={Search} className="Search"></img>
+                                <img src={Search} className="Search" alt="Search" />
                                 <h2>Find your destination</h2>
                                 <p>
                                     Embark on a journey to discover your dream destination, where adventure and
@@ -172,7 +171,7 @@ function Home() {
                                 initial={{ opacity: 0 }}
                                 transition={{ duration: 0.2, delay: 0.1 }}
                             >
-                                <img src={Book} className="Book"></img>
+                                <img src={Book} className="Book" alt="Book" />
                                 <h2>Book a ticket</h2>
                                 <p>
                                     Ensure a smooth travel experience by booking tickets to your preferred destination
@@ -186,7 +185,7 @@ function Home() {
                                 initial={{ opacity: 0 }}
                                 transition={{ duration: 0.2, delay: 0.2 }}
                             >
-                                <img src={Payment} className="Payment"></img>
+                                <img src={Payment} className="Payment" alt="Payment" />
                                 <h2>Make payment</h2>
                                 <p>
                                     We offer various payment options to meet your preferences and ensure a hassle-free
@@ -200,7 +199,7 @@ function Home() {
                                 initial={{ opacity: 0 }}
                                 transition={{ duration: 0.2, delay: 0.3 }}
                             >
-                                <img src={Destination} className="Destination"></img>
+                                <img src={Destination} className="Destination" alt="Destination" />
                                 <h2>Explore destination</h2>
                                 <p>
                                     You’ll be immersed in a captivating tapestry of sights, sounds, and tastes as you

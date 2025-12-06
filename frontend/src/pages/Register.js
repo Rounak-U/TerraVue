@@ -125,7 +125,7 @@ function Register() {
                         <div className="terms">
                             <input type="checkbox" id="terms" required />
                             <label htmlFor="terms">
-                                I agree to the <a href="#">Terms & Conditions</a>
+                                I agree to the <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>
                             </label>
                         </div>
 

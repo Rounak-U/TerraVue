@@ -47,7 +47,7 @@ const SupportCenter = () => {
 
     useEffect(() => {
         fetchTickets();
-    }, []);
+    }, [fetchTickets]);
 
     useEffect(() => {
         if (!tickets.length) {
