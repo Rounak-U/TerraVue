@@ -18,22 +18,22 @@ function Blogs() {
             <div class="Videos-Section">
                 <div class="Videos-Containers">
                     <div class="Container">
-                        <iframe src="https://www.youtube.com/embed/9wVoJu9PrpQ" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/9wVoJu9PrpQ" title="YouTube video 1" allowFullScreen></iframe>
                     </div>
                     <div class="Container">
-                        <iframe src="https://www.youtube.com/embed/ti39UJYgc5s" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/ti39UJYgc5s" title="YouTube video 2" allowFullScreen></iframe>
                     </div>
                     <div class="Container">
-                        <iframe src="https://www.youtube.com/embed/-F_aUhe0bgQ" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/-F_aUhe0bgQ" title="YouTube video 3" allowFullScreen></iframe>
                     </div>
                     <div class="Container">
-                        <iframe src="https://www.youtube.com/embed/qzN7UY4D8VQ" ></iframe>
+                        <iframe src="https://www.youtube.com/embed/qzN7UY4D8VQ" title="YouTube video 4"></iframe>
                     </div>
                     <div class="Container">
-                        <iframe src="https://www.youtube.com/embed/Lr2Xur5I-NU" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/Lr2Xur5I-NU" title="YouTube video 5" allowFullScreen></iframe>
                     </div>
                     <div class="Container">
-                        <iframe src="https://www.youtube.com/embed/XYwP-QndGG0" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/XYwP-QndGG0" title="YouTube video 6" allowFullScreen></iframe>
                     </div>
                 </div>
             </div>

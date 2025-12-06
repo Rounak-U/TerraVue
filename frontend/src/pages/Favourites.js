@@ -34,7 +34,7 @@ const Favourites = () => {
 
     useEffect(() => {
         fetchFavorites();
-    }, []);
+    }, [fetchFavorites]);
 
     const removeFavorite = async (tourId) => {
         if (!tourId) return;

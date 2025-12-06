@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DashboardNavbar from '../components/DashboardNavbar';
 import api from '../api/axios';
@@ -33,7 +33,7 @@ const SupportCenter = () => {
     const [submitting, setSubmitting] = useState(false);
     const notify = useNotify();
 
-    const fetchTickets = async () => {
+    const fetchTickets = useCallback(async () => {
         try {
             setLoading(true);
             const { data } = await api.get('/api/support');
@@ -43,7 +43,7 @@ const SupportCenter = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [notify]);
 
     useEffect(() => {
         fetchTickets();
