@@ -28,8 +28,7 @@ const TourDetail = () => {
     const [addSuccess, setAddSuccess] = useState(false);
     const [activeTab, setActiveTab] = useState('overview');
     const [isFavorite, setIsFavorite] = useState(false);
-    const [reviewsVisible, setReviewsVisible] = useState(false);
-    const [expandedDay, setExpandedDay] = useState(null);
+    // ...existing code...
     const notify = useNotify();
 
     useEffect(() => {
