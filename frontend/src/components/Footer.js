@@ -17,11 +17,11 @@ function Footer() {
             </div>
             <div className="footer-support">
                 <h3>Follow Us</h3>
-                <a href="#"><img src={Facebook} className="social-icon" alt="Facebook" />Facebook</a>
-                <a href="#"><img src={Instagram} className="social-icon" alt="Instagram" />Instagram</a>
-                <a href="#"><img src={WhatsApp} className="social-icon" alt="WhatsApp" />WhatsApp</a>
-                <a href="#"><img src={Telegram} className="social-icon" alt="Telegram" />Telegram</a>
-                <a href="#"><img src={Gmail} className="social-icon" alt="Mail" />Mail Us</a>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><img src={Facebook} className="social-icon" alt="Facebook" />Facebook</a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><img src={Instagram} className="social-icon" alt="Instagram" />Instagram</a>
+                <a href="https://wa.me/" target="_blank" rel="noopener noreferrer"><img src={WhatsApp} className="social-icon" alt="WhatsApp" />WhatsApp</a>
+                <a href="https://telegram.org" target="_blank" rel="noopener noreferrer"><img src={Telegram} className="social-icon" alt="Telegram" />Telegram</a>
+                <a href="mailto:support@terravue.com" target="_blank" rel="noopener noreferrer"><img src={Gmail} className="social-icon" alt="Mail" />Mail Us</a>
             </div>
             <div className="footer-newsletter">
                 <h3>Stay Updated with Our Latest Offers!</h3>

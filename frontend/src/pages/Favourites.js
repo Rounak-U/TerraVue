@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import DashboardNavbar from '../components/DashboardNavbar';
@@ -20,7 +20,7 @@ const Favourites = () => {
     const [loading, setLoading] = useState(true);
     const notify = useNotify();
 
-    const fetchFavorites = async () => {
+    const fetchFavorites = useCallback(async () => {
         try {
             setLoading(true);
             const { data } = await api.get('/api/favorites');
@@ -30,7 +30,7 @@ const Favourites = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [notify]);
 
     useEffect(() => {
         fetchFavorites();

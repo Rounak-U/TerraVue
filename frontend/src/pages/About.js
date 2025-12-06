@@ -1,6 +1,6 @@
 import React from "react";
 import "./About.css";
-import Navbar from "../components/Navbar";
+// ...existing code...
 import Footer from "../components/Footer";
 import { motion } from "framer-motion";
 import Photographer from "../assets/Photographer.jpg";
