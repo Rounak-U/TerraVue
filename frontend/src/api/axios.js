@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'https://terravue.onrender.com',
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -54,7 +54,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const resp = await axios.post('http://localhost:5000/api/auth/refresh', { token: refreshToken });
+        const resp = await axios.post('https://terravue.onrender.com/api/auth/refresh', { token: refreshToken });
         const newAccessToken = resp.data.accessToken;
         localStorage.setItem('accessToken', newAccessToken);
         api.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;

@@ -3,7 +3,7 @@ import axios from 'axios';
 export const ADMIN_TOKEN_KEY = 'adminAccessToken';
 const ADMIN_PROFILE_KEY = 'adminProfile';
 
-const baseURL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+const baseURL = process.env.REACT_APP_API_BASE_URL || 'https://terravue.onrender.com';
 
 const adminApi = axios.create({
     baseURL,
