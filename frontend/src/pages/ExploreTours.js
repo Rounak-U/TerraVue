@@ -353,7 +353,7 @@ const ExploreTours = () => {
                                         variants={cardVariants}
                                         whileHover={{ y: -6 }}
                                         className="rounded-[2rem] border border-white/70 bg-gradient-to-br from-white/95 via-white to-slate-50/80 backdrop-blur shadow-[0_35px_65px_-40px_rgba(15,23,42,0.9)] group cursor-pointer flex flex-col"
-                                        onClick={() => navigate(`/tour/${encodeURIComponent(tour.title)}`)}
+                                        onClick={() => navigate(`/tour/${tour._id}`)}
                                     >
                                         {/* Image Container */}
                                         <div className="px-5 pt-5">
@@ -455,7 +455,7 @@ const ExploreTours = () => {
                                                     whileTap={{ scale: 0.97 }}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        navigate(`/tour/${tour.title}`);
+                                                        navigate(`/tour/${tour._id}`);
                                                     }}
                                                     className="px-6 py-3 rounded-full text-xs uppercase tracking-[0.4em] border border-slate-900 hover:bg-slate-900 hover:text-white transition self-end"
                                                 >
