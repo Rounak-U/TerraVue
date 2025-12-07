@@ -31,13 +31,13 @@ app.use('/api/support', supportRoutes);
 app.use('/api/location', locationRoutes);
 app.use('/api/admin', adminRoutes);
 // Serve static files from the React frontend build
-const path = require('path');
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+// const path = require('path');
+// app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-// For any other route, serve index.html (for React Router)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-});
+// // For any other route, serve index.html (for React Router)
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+// });
 
 const PORT = process.env.PORT || 5000;
 
