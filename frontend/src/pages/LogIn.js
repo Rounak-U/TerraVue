@@ -227,7 +227,7 @@ function LogIn({ initialMode = "traveler" }) {
                                                 onSuccess={handleGoogleSuccess}
                                                 onError={handleGoogleError}
                                                 shape="pill"
-                                                theme="outline"
+                                                theme="filled_blue"
                                                 text="signin_with"
                                             />
                                         </div>
