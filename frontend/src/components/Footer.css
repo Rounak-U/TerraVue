@@ -1,0 +1,245 @@
+.footer-container {
+    width: 100%;
+    background-color: #000000;
+    color: white;
+    padding: 100px;
+    height: 430px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: flex-start;
+    gap: 60px;
+    margin-top: -5%;
+    padding-top: 4%;
+    padding-bottom: -10%;
+}
+
+.footer-about,
+.footer-support,
+.footer-newsletter,
+.footer-branding {
+    flex: 0.2;
+    max-width: 300px;
+}
+
+.footer-about h3,
+.footer-support h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.footer-about a,
+.footer-support a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #bbb;
+    width: 40%;
+    font-size: 1rem;
+    margin-bottom: 30px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-about a:hover,
+.footer-support a:hover {
+    color: #f31270;
+}
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.footer-newsletter {
+    max-width: 400px;
+    flex-grow: 1;
+    text-align: center;
+    background-color: #000000;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.footer-newsletter h3 {
+    font-size: 1.7rem;
+    margin-bottom: 25px;
+    color: white;
+    font-weight: bold;
+}
+
+.newsletter-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+    padding: 12px;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.newsletter-form input {
+    padding: 12px;
+    width: 80%;
+    border: none;
+    border-radius: 10px;
+    margin-right: 12px;
+    font-size: 16px;
+    background-color: black;
+    border: 2px solid white;
+    outline: none;
+    color: #ffffff;
+}
+
+.newsletter-form input:focus {
+    border: 2px solid #f31261;
+}
+
+.subscribe-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #f3125d;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.subscribe-btn:hover {
+    background-color: #f83576;
+}
+
+.footer-branding {
+    text-align: center;
+    flex-grow: 0.8;
+    margin-top: 20px;
+}
+
+.footer-branding h1 {
+    color: rgb(255, 0, 111);
+    font-family: 'Kanit', sans-serif;
+    letter-spacing: 4px;
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.footer-branding p {
+    font-size: 0.9rem;
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+/* Responsive Styles */
+
+@media (min-width: 1024px) and (max-width: 1366px) {
+    .footer-container {
+        padding: 60px 40px;
+        gap: 40px;
+        height: auto;
+    }
+
+    .footer-about,
+    .footer-support,
+    .footer-newsletter,
+    .footer-branding {
+        flex: 0.25;
+        max-width: 250px;
+    }
+
+    .footer-newsletter {
+        max-width: 350px;
+    }
+
+    .footer-branding h1 {
+        font-size: 32px;
+        letter-spacing: 3px;
+    }
+
+    .newsletter-form input {
+        width: 70%;
+    }
+}
+
+@media (max-width: 900px) {
+    .footer-container {
+        flex-direction: column;
+        padding: 50px 20px;
+        height: auto;
+        gap: 40px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-about,
+    .footer-support,
+    .footer-newsletter,
+    .footer-branding {
+        flex: none;
+        max-width: 100%;
+    }
+
+    .footer-about a,
+    .footer-support a {
+        width: auto;
+        justify-content: center;
+    }
+
+    .footer-newsletter {
+        max-width: 100%;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .newsletter-form input {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .footer-branding h1 {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-container {
+        padding: 30px 10px;
+        gap: 30px;
+    }
+
+    .footer-about h3,
+    .footer-support h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    .footer-about a,
+    .footer-support a {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+
+    .footer-newsletter h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+
+    .newsletter-form input,
+    .subscribe-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .footer-branding h1 {
+        font-size: 24px;
+        letter-spacing: 2px;
+    }
+
+    .footer-branding p {
+        font-size: 0.8rem;
+    }
+}
