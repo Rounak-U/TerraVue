@@ -209,4 +209,143 @@ input[type="password"] {
 .login-options p{
     text-align: center;
     margin-bottom: -1%;
+}
+
+/* Responsive Styles */
+
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        height: auto;
+        overflow: auto;
+    }
+
+    .login-image-section {
+        flex: none;
+        height: 50vh;
+        padding: 1%;
+    }
+
+    .login-image {
+        height: 100%;
+        margin-left: 0;
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .login-image-text h1 {
+        font-size: 1.5rem;
+        bottom: 80%;
+        left: 5%;
+    }
+
+    .login-image-text h2 {
+        font-size: 1.5rem;
+        width: 90%;
+        left: 5%;
+        bottom: 10%;
+    }
+
+    .BackButton {
+        top: 5%;
+        right: 5%;
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .login-form-section {
+        flex: none;
+        padding: 20px;
+    }
+
+    .login-form {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .login-form h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .terms {
+        font-size: 12px;
+    }
+
+    .create-account-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .google-btn {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-image-section {
+        height: 40vh;
+    }
+
+    .login-image-text h1 {
+        font-size: 1.2rem;
+        bottom: 75%;
+    }
+
+    .login-image-text h2 {
+        font-size: 1.2rem;
+        bottom: 5%;
+    }
+
+    .BackButton {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+
+    .login-form-section {
+        padding: 15px;
+    }
+
+    .login-form {
+        padding: 15px;
+    }
+
+    .login-form h2 {
+        font-size: 1.8rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .terms {
+        font-size: 11px;
+    }
+
+    .create-account-btn {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .google-btn {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
 } 

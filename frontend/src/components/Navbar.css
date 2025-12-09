@@ -19,7 +19,7 @@
     align-items: center;
     margin-right: 4%;
   }
-  .nav-contents a {
+  .nav-contents a, .nav-contents button {
     text-decoration: none;
     color: #000000;
     font-weight: 400;
@@ -130,6 +130,203 @@
   height: 36px;
   border-radius: 50%;
   cursor: pointer;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .navbar {
+    flex-direction: row;
+    height: 80px;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo h1 {
+    margin-top: 0;
+    margin-left: 0;
+    font-size: 22px;
+  }
+  .navbar-hamburger {
+    margin-right: 0;
+  }
+  .nav-contents {
+    width: 100vw;
+    margin: 0;
+    border-radius: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    gap: 0;
+    padding: 20px 10px;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    z-index: 150;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .nav-contents.open {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .nav-contents a, .nav-contents button {
+    font-size: 16px;
+    margin: 0;
+    padding: 15px 20px;
+    width: 100%;
+    text-align: left;
+    border-radius: 8px;
+    background: none;
+    border: none;
+    display: block;
+    color: #333;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .nav-contents a:hover, .nav-contents button:hover {
+    background: rgba(210, 0, 85, 0.1);
+    color: #D20055;
+    transform: translateX(5px);
+  }
+  .Login {
+    margin-top: 10px;
+    width: 100vw;
+    justify-content: flex-start;
+    padding-left: 10px;
+    display: none;
+  }
+  .user-section {
+    margin-top: 0;
+    gap: 8px;
+  }
+  .user-section .dashboard-btn {
+    display: none;
+  }
+  .dashboard-btn, .logout-btn {
+    width: 100%;
+    margin: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: row;
+    height: 60px;
+    padding: 0 6px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo h1 {
+    margin-top: 0;
+    margin-left: 0;
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+  .navbar-hamburger {
+    margin-right: 0;
+  }
+  .nav-contents {
+    width: 100vw;
+    margin: 0;
+    border-radius: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    gap: 0;
+    padding: 15px 6px;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    z-index: 150;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .nav-contents.open {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .nav-contents a, .nav-contents button {
+    font-size: 14px;
+    margin: 0;
+    padding: 12px 15px;
+    width: 100%;
+    text-align: left;
+    border-radius: 6px;
+    background: none;
+    border: none;
+    display: block;
+    color: #333;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .nav-contents a:hover, .nav-contents button:hover {
+    background: rgba(210, 0, 85, 0.1);
+    color: #D20055;
+    transform: translateX(5px);
+  }
+  .Login {
+    margin-top: 8px;
+    width: 100vw;
+    justify-content: flex-start;
+    padding-left: 6px;
+    display: none;
+  }
+  .user-section {
+    margin-top: 0;
+    gap: 6px;
+  }
+  .dashboard-btn, .logout-btn {
+    width: 100%;
+    margin: 0;
+    padding: 8px 0;
+    font-size: 14px;
+    border-radius: 6px;
+  }
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Hide dashboard in nav-contents on desktop */
+@media (min-width: 901px) {
+  .nav-contents .dashboard-btn {
+    display: none;
+  }
+  .nav-contents .login-link {
+    display: none;
+  }
+}
+
+/* Menu backdrop */
+.menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 140;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 

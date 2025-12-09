@@ -130,3 +130,87 @@
     color: #ffffff;
     margin-top: 10px;
 }
+
+/* Responsive Styles */
+
+@media (max-width: 900px) {
+    .footer-container {
+        flex-direction: column;
+        padding: 50px 20px;
+        height: auto;
+        gap: 40px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-about,
+    .footer-support,
+    .footer-newsletter,
+    .footer-branding {
+        flex: none;
+        max-width: 100%;
+    }
+
+    .footer-about a,
+    .footer-support a {
+        width: auto;
+        justify-content: center;
+    }
+
+    .footer-newsletter {
+        max-width: 100%;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .newsletter-form input {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .footer-branding h1 {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-container {
+        padding: 30px 10px;
+        gap: 30px;
+    }
+
+    .footer-about h3,
+    .footer-support h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    .footer-about a,
+    .footer-support a {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+
+    .footer-newsletter h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+
+    .newsletter-form input,
+    .subscribe-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .footer-branding h1 {
+        font-size: 24px;
+        letter-spacing: 2px;
+    }
+
+    .footer-branding p {
+        font-size: 0.8rem;
+    }
+}
