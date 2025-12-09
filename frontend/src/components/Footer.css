@@ -133,6 +133,35 @@
 
 /* Responsive Styles */
 
+@media (min-width: 1024px) and (max-width: 1366px) {
+    .footer-container {
+        padding: 60px 40px;
+        gap: 40px;
+        height: auto;
+    }
+
+    .footer-about,
+    .footer-support,
+    .footer-newsletter,
+    .footer-branding {
+        flex: 0.25;
+        max-width: 250px;
+    }
+
+    .footer-newsletter {
+        max-width: 350px;
+    }
+
+    .footer-branding h1 {
+        font-size: 32px;
+        letter-spacing: 3px;
+    }
+
+    .newsletter-form input {
+        width: 70%;
+    }
+}
+
 @media (max-width: 900px) {
     .footer-container {
         flex-direction: column;
