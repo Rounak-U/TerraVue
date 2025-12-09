@@ -141,8 +141,12 @@ function Register() {
                     <div className="login-options">
                         <p className="registerp">Or Register With</p>
                         <div className="social-login">
-                            <button className="google-btn" onClick={handleGoogleLogin}>
-                                <img src={Google} alt="Google" /> Google
+                            <button 
+                                className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-lg font-semibold text-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                                onClick={handleGoogleLogin}
+                            >
+                                <img src={Google} alt="Google" className="w-6 h-6" />
+                                Google
                             </button>
                         </div>
                     </div>
