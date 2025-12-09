@@ -8,7 +8,6 @@ import {
     FaTicketAlt, FaUmbrella, FaThermometerHalf, FaBus, FaMapMarker, 
     FaThumbsUp, FaTrophy, FaShieldAlt, FaGlobe, FaCreditCard
 } from 'react-icons/fa';
-import axios from 'axios';
 import api from '../api/axios';
 import { toursData } from '../data/tours';
 import { useCart } from '../context/CartContext';
@@ -34,12 +33,37 @@ const TourDetail = () => {
     useEffect(() => {
         const fetchTour = async () => {
             try {
-                // Try API first
-                const response = await axios.get(`/api/tours/details/${tourTitle}`);
-                setTour(response.data);
+                setLoading(true);
+                // Try fetching by ID first (since URLs use IDs from ExploreTours)
+                let response;
+                try {
+                    response = await api.get(`/api/tours/${tourTitle}`);
+                    setTour(response.data);
+                } catch (idError) {
+                    // If ID fetch fails, try fetching by title (for backward compatibility)
+                    try {
+                        response = await api.get(`/api/tours/details/${tourTitle}`);
+                        setTour(response.data);
+                    } catch (titleError) {
+                        // Fallback to local data
+                        const localTour = toursData.find(t => 
+                            t._id === tourTitle || 
+                            t.title.toLowerCase() === tourTitle.toLowerCase()
+                        );
+                        if (localTour) {
+                            setTour(localTour);
+                        } else {
+                            console.error('Tour not found:', tourTitle);
+                        }
+                    }
+                }
             } catch (error) {
-                // Fallback to local data
-                const localTour = toursData.find(t => t.title.toLowerCase() === tourTitle.toLowerCase());
+                console.error('Failed to fetch tour:', error);
+                // Final fallback to local data
+                const localTour = toursData.find(t => 
+                    t._id === tourTitle || 
+                    t.title.toLowerCase() === tourTitle.toLowerCase()
+                );
                 if (localTour) {
                     setTour(localTour);
                 }

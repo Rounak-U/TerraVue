@@ -22,11 +22,12 @@ const publicUser = (user) => ({
 });
 
 exports.registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(400).json({ message: "User already exists" });
 
+        const name = `${firstName} ${lastName}`.trim();
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword, authProvider: 'local' });
         await newUser.save();

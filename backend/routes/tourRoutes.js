@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const Tour = require('../models/Tour');
 
@@ -116,6 +117,57 @@ router.get('/featured/all', async (req, res) => {
     }
 });
 
+// GET tour statistics
+router.get('/stats/all', async (req, res) => {
+    try {
+        const stats = await Tour.aggregate([
+            {
+                $group: {
+                    _id: '$category',
+                    count: { $sum: 1 },
+                    avgPrice: { $avg: '$price' },
+                    avgRating: { $avg: '$rating' }
+                }
+            },
+            {
+                $sort: { count: -1 }
+            }
+        ]);
+
+        res.json(stats);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch statistics', error: error.message });
+    }
+});
+
+// GET a single tour by ID (must come after all specific routes)
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Check if it's a valid MongoDB ObjectId format
+        if (mongoose.Types.ObjectId.isValid(id)) {
+            const tour = await Tour.findById(id);
+            if (tour) {
+                return res.json(tour);
+            }
+        }
+        
+        // If not found by ID, try to find by title (for backward compatibility)
+        const tour = await Tour.findOne({
+            title: { $regex: new RegExp(`^${id}$`, 'i') }
+        });
+
+        if (!tour) {
+            return res.status(404).json({ message: 'Tour not found' });
+        }
+
+        res.json(tour);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch tour', error: error.message });
+    }
+});
+
 // POST - Create a new tour (admin only)
 router.post('/', async (req, res) => {
     try {
@@ -151,7 +203,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// PUT - Update a tour
+// PUT - Update a tour (must come after GET /:id)
 router.put('/:id', async (req, res) => {
     try {
         const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
@@ -172,42 +224,6 @@ router.delete('/:id', async (req, res) => {
             return res.status(404).json({ message: 'Tour not found' });
         }
         res.json({ message: 'Tour deleted successfully', tour });
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to delete tour', error: error.message });
-    }
-});
-
-// GET tour statistics
-router.get('/stats/all', async (req, res) => {
-    try {
-        const stats = await Tour.aggregate([
-            {
-                $group: {
-                    _id: '$category',
-                    count: { $sum: 1 },
-                    avgPrice: { $avg: '$price' },
-                    avgRating: { $avg: '$rating' }
-                }
-            },
-            {
-                $sort: { count: -1 }
-            }
-        ]);
-
-        res.json(stats);
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to fetch statistics', error: error.message });
-    }
-});
-
-// DELETE - Delete a tour
-router.delete('/:id', async (req, res) => {
-    try {
-        const tour = await Tour.findByIdAndDelete(req.params.id);
-        if (!tour) {
-            return res.status(404).json({ message: 'Tour not found' });
-        }
-        res.json({ message: 'Tour deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Failed to delete tour', error: error.message });
     }
