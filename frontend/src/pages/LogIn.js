@@ -222,7 +222,7 @@ function LogIn({ initialMode = "traveler" }) {
                             <div className="social-login flex justify-center">
                                 {isGoogleConfigured ? (
                                     <div className="google-btn-wrapper flex justify-center">
-                                        <div className="google-btn-embed w-64 md:w-80 max-w-full rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-200">
+                                        <div className="google-btn-embed w-32 md:w-40 max-w-full rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-200">
                                             <GoogleLogin
                                                 onSuccess={handleGoogleSuccess}
                                                 onError={handleGoogleError}
@@ -234,7 +234,7 @@ function LogIn({ initialMode = "traveler" }) {
                                         {isGoogleLoading && <p className="google-loading text-sm text-gray-400 mt-2 text-center">Connecting to Google...</p>}
                                     </div>
                                 ) : (
-                                    <button className="w-64 md:w-80 max-w-full flex items-center justify-center gap-3 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-500 border-2 border-gray-300 rounded-full font-semibold text-base md:text-lg cursor-not-allowed transition-all duration-200 shadow-md">
+                                    <button className="w-32 md:w-40 max-w-full flex items-center justify-center gap-3 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-500 border-2 border-gray-300 rounded-full font-semibold text-base md:text-lg cursor-not-allowed transition-all duration-200 shadow-md">
                                         Google Sign-In unavailable
                                     </button>
                                 )}
