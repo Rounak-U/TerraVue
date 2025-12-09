@@ -337,7 +337,7 @@ const toursData = [
         description: "Bioluminescent lagoons, reef dives, and barefoot luxury in Havelock and Neil islands.",
         rating: 4.9,
         reviews: 205,
-        image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+        image: "https://terravue.vercel.app/images/tours/Andaman.jpg",
         highlights: ["Bioluminescence night paddle", "PADI intro dive", "Chef-led seafood grill", "Mangrove SUP safari", "Sustainability walk"],
         maxGroupSize: 10,
         difficulty: "Easy",

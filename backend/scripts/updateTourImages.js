@@ -4,6 +4,7 @@ require('dotenv').config();
 
 // Map of tour titles to their image URLs
 // Using full URLs that work in production (Vercel will serve from /images/tours/)
+// All images are verified to exist in /frontend/public/images/tours/
 const tourImageMap = {
     "Maldives Beach Paradise": "https://terravue.vercel.app/images/tours/Maldives.jpeg",
     "Swiss Alps Mountain Trek": "https://terravue.vercel.app/images/tours/Swiss.jpg",
@@ -24,7 +25,7 @@ const tourImageMap = {
     "Goa Slow Beach Weekender": "https://terravue.vercel.app/images/tours/Goa.jpeg",
     "Varanasi Spiritual Sojourn": "https://terravue.vercel.app/images/tours/Varanasi.jpg",
     "Hampi Heritage Walk": "https://terravue.vercel.app/images/tours/Hampi.jpg",
-    "Andaman Island Escape": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+    "Andaman Island Escape": "https://terravue.vercel.app/images/tours/Andaman.jpg",
     "Rishikesh Wellness Retreat": "https://terravue.vercel.app/images/tours/Rishikesh.jpg"
 };
 
