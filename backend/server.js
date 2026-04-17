@@ -2,6 +2,9 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const cron = require('node-cron');
+const http = require('http');
+const https = require('https');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const tourRoutes = require('./routes/tourRoutes');
